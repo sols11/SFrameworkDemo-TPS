@@ -272,6 +272,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95881062045030350, guid: 20936ffd6c7c4cc41abaa454e872da81,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3f8b6c632e086bb45ba0a1463131b5f3, type: 2}
+    - target: {fileID: 4950416419099530, guid: 20936ffd6c7c4cc41abaa454e872da81, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.6646334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4950416419099530, guid: 20936ffd6c7c4cc41abaa454e872da81, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7451423
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20936ffd6c7c4cc41abaa454e872da81, type: 3}
 --- !u!1 &429543588
@@ -285,7 +298,7 @@ GameObject:
   - component: {fileID: 429543590}
   - component: {fileID: 429543589}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Game Loop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08654b480edabdd498e3245d27000d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneState: 0
 --- !u!4 &429543590
 Transform:
   m_ObjectHideFlags: 0
