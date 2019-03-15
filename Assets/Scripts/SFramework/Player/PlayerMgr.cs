@@ -48,16 +48,16 @@ namespace SFramework
                 Debug.Log("无CurrentPlayer可以销毁！");
         }
 
-		public override void Update()
+        public override void FixedUpdate()
+        {
+            if (CurrentPlayer != null && CanInput)
+                CurrentPlayer.FixedUpdate();
+        }
+
+        public override void Update()
         {
             if(CurrentPlayer!=null&& CanInput)
                 CurrentPlayer.Update();
-		}
-
-		public override void FixedUpdate()
-        {
-            if(CurrentPlayer!=null&& CanInput)
-                CurrentPlayer.FixedUpdate();
 		}
 
 	    public void BuildPlayer(Vector3 position,Quaternion quaternion)
@@ -74,7 +74,7 @@ namespace SFramework
              CurrentPlayer.Initialize();    // 设置Player时进行初始化
         }
 
-        public void SetPlayerPos(Vector3 pos)
+        public void SetPlayerPosition(Vector3 pos)
         {
              CurrentPlayer.GameObjectInScene.transform.position = pos;
         }

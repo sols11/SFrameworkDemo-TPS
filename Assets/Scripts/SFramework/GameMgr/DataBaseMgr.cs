@@ -29,10 +29,12 @@ namespace SFramework
         {
         }
 
+        /// <summary>
+        /// 常用于调用FileMgr加载数据库文件
+        /// </summary>
         public override void Awake()
         {
             //dicEquip = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, IEquip>>("Equip");
-
             //gameMain.fileMgr.CreateJsonDataBase("Tasks",Tasks);
         }
 
