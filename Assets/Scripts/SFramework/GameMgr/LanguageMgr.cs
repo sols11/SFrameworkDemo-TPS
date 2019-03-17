@@ -23,26 +23,29 @@ namespace SFramework
     public class LanguageMgr : IGameMgr
     {
         private SettingData SettingSaveData { get; set; }    // 存储语言首选项
-        private Dictionary<string, string> dicLauguageCN;
-        private Dictionary<string, string> dicLauguageEN;
+        private Dictionary<string, string> languageCN_Dict;
+        private Dictionary<string, string> languageEN_Dict;
         private Font fontCN;
         private Font fontEN;
+        private string fontPathCN = @"Fonts\MicrosoftYaHeiMini";
+        private string fontPathEN = @"Fonts\ARJULIAN";
 
         public LanguageMgr(GameMainProgram gameMain) : base(gameMain)
         {
-            dicLauguageCN = new Dictionary<string, string>();
-            dicLauguageEN = new Dictionary<string, string>();
+            languageCN_Dict = new Dictionary<string, string>();
+            languageEN_Dict = new Dictionary<string, string>();
         }
 
         public override void Awake()
         {
             SettingSaveData = gameMain.gameDataMgr.SettingSaveData;
             // 加载语言本地化数据文件
-            dicLauguageCN = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, string>>("Language_CN");
-            dicLauguageEN = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, string>>("Language_EN");
+            languageCN_Dict = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, string>>("Language_CN");
+            languageEN_Dict = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, string>>("Language_EN");
             // 加载语言对应的字体
-            fontCN = gameMain.resourcesMgr.LoadResource<Font>(@"Fonts\FZYH");
-            fontEN = gameMain.resourcesMgr.LoadResource<Font>(@"Fonts\ARJULIAN");
+            fontCN = gameMain.resourcesMgr.LoadResource<Font>(fontPathCN);
+            fontEN = gameMain.resourcesMgr.LoadResource<Font>(fontPathEN);
+            Debug.Log("LanguageMgr加载完毕");
         }
 
         /// <summary>
@@ -53,9 +56,9 @@ namespace SFramework
         public string ShowText(string stringId)
         {
             if (SettingSaveData.IsChinese)
-                return UnityHelper.FindDic(dicLauguageCN, stringId);
+                return UnityHelper.FindDic(languageCN_Dict, stringId);
             else
-                return UnityHelper.FindDic(dicLauguageEN, stringId);
+                return UnityHelper.FindDic(languageEN_Dict, stringId);
         }
 
         public Font GetFont(int fontChoose = 0)

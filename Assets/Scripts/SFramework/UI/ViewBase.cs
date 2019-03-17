@@ -21,6 +21,11 @@ namespace SFramework
 {
     public class ViewBase : MonoBehaviour
     {
+        // 字段
+        private UIFormType _UIForm_Type = UIFormType.Normal;
+        private UIFormShowMode _UIForm_ShowMode = UIFormShowMode.Normal;
+        private UIFormLucenyType _UIForm_LucencyType = UIFormLucenyType.Lucency;
+
         // 属性
         // 对UIMgr的引用将在生成该UI时赋值
         public UIManager UI_Manager { get; set; }
@@ -28,11 +33,11 @@ namespace SFramework
         public LanguageMgr LanguageMgr { get; set; }
 
         // UI窗体（位置）类型
-        public UIFormType UIForm_Type { get; set; } = UIFormType.Normal;
+        public UIFormType UIForm_Type { get { return _UIForm_Type; }set { _UIForm_Type = value; } }
         // UI窗体显示类型
-        public UIFormShowMode UIForm_ShowMode { get; set; } = UIFormShowMode.Normal;
+        public UIFormShowMode UIForm_ShowMode { get { return _UIForm_ShowMode; } set { _UIForm_ShowMode = value; } }
         // UI窗体透明度类型
-        public UIFormLucenyType UIForm_LucencyType { get; set; } = UIFormLucenyType.Lucency;
+        public UIFormLucenyType UIForm_LucencyType { get { return _UIForm_LucencyType; } set { _UIForm_LucencyType = value; } }
 
         public virtual void UpdateUI() { }
 

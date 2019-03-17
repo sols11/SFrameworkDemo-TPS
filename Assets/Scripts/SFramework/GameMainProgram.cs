@@ -45,12 +45,12 @@ namespace SFramework
 			}
 		}
 
+        // 继承Mono的Mgr，不需要通过GameMainProgram调用，如CoroutineMgr
         public ResourcesMgr resourcesMgr;
         public FileMgr fileMgr;
         public DataBaseMgr dataBaseMgr;
         public GameDataMgr gameDataMgr;
         public LanguageMgr languageMgr;
-        //public CoroutineMgr coroutineMgr; // 继承Mono的Mgr，不需要通过GameMainProgram调用
         public PlayerMgr playerMgr;
         public EnemyMgr enemyMgr;
 	    public NpcMgr npcMgr;
@@ -93,12 +93,12 @@ namespace SFramework
         {
             // 注意Awake不能放在构造函数内执行，因为这将导致主程序未构造完毕就开始使用，破坏了单例的存在，造成栈溢出错误
             dataBaseMgr.Awake();
-            //gameDataMgr.Awake();
-            //languageMgr.Awake();
+            languageMgr.Awake();
             uiManager.Awake();
-            //audioMgr.Awake();
-            //dialogMgr.Awake();
-            //npcMgr.Awake();
+            audioMgr.Awake();
+            dialogMgr.Awake();
+            npcMgr.Awake();
+            Debug.Log("框架初始化完成");
         }
 
         /// <summary>

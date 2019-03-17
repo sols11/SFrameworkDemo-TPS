@@ -23,7 +23,10 @@ namespace SFramework
     public class DataBaseMgr : IGameMgr
     {
         // 字典存放所有种类的Item，key也可以用enum
-        public Dictionary<string, IEquip> dicEquip;
+        public Dictionary<string, IEquip> equipDict;
+        public Dictionary<string, IEquip> enemyEquipDict;
+        public List<Task> Tasks { get; set; }
+        public IProp[] Props { get; private set; }
 
         public DataBaseMgr(GameMainProgram gameMain) : base(gameMain)
         {
@@ -34,8 +37,15 @@ namespace SFramework
         /// </summary>
         public override void Awake()
         {
-            //dicEquip = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, IEquip>>("Equip");
-            //gameMain.fileMgr.CreateJsonDataBase("Tasks",Tasks);
+            equipDict = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, IEquip>>("Equip");
+            Debug.Log("Equip数据加载完毕");
+            Props = gameMain.fileMgr.LoadJsonDataBase<IProp[]>("Prop");
+            Debug.Log("Prop数据库加载完毕");
+            enemyEquipDict = gameMain.fileMgr.LoadJsonDataBase<Dictionary<string, IEquip>>("EnemyEquip");
+            Debug.Log("EnemyEquip数据加载完毕");
+            Tasks = gameMain.fileMgr.LoadJsonDataBase<List<Task>>("Tasks");
+            Debug.Log("Tasks数据加载完毕");
+            Debug.Log("数据库文件全部加载完毕");
         }
 
     }
