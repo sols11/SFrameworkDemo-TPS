@@ -34,7 +34,7 @@ namespace SFramework
 
             // UI，BGM
             GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
-            gameMainProgram.audioMgr.PlayMusic(0);
+            //gameMainProgram.audioMgr.PlayMusic(0);
         }
 
         public override void StateEnd()
