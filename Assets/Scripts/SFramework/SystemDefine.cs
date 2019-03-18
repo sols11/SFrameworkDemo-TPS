@@ -19,8 +19,17 @@ namespace SFramework
     public static class SystemDefine
     {
         // 填写全局变量
-
+        // InputMgr
+        public static string Horizontal = "Horizontal";
+        public static string Vertical = "Vertical";
+        public static string Fire1 = "Fire1";
+        public static string Fire2 = "Fire2";
+        public static string Fire3 = "Fire3";
+        public static string Jump = "Jump";
+        public static string Submit = "Submit";
+        public static string Concel = "Concel";
     }
+
 
     public enum ObjectLayer
     {
