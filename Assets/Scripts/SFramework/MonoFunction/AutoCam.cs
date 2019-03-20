@@ -41,21 +41,22 @@ namespace SFramework
     {
         public bool EnableAreaLimit { get; set; }
         [SerializeField]
-        private float m_MoveSpeed = 10;
-        //[SerializeField]
-        //private float m_RotSpeed = 3;
+        private float moveSpeed = 10;
         [SerializeField]
-        private bool m_AutoTarget = true;        // Whether the rig should automatically target the player.
+        private float rotSpeed = 3;
         [SerializeField]
-        private bool m_TargetEnemy = true;
+        private bool autoTarget = true;        // Whether the rig should automatically target the player.
         [SerializeField]
-        private UpdateType m_UpdateType = UpdateType.FixedUpdate;         // stores the selected update type
+        private bool targetEnemy = true;
+        [SerializeField]
+        private UpdateType updateType = UpdateType.FixedUpdate;         // stores the selected update type
         // 追加
-        private float xLimit;
-        private float x_Limit;
-        private float zLimit;
-        private float z_Limit;
+        private float xMaxLimit;
+        private float xMinLimit;
+        private float zMaxLimit;
+        private float zMinLimit;
         private Vector3 clampPos = Vector3.zero;
+        // 遮挡半透
         public TransparentCam transparentCam;
 
         private string playerTag = "Player";
@@ -63,7 +64,7 @@ namespace SFramework
         public Transform playerTransform;
         public Transform enemyTransform;
         public float distance = 0;
-        //public float distanceMin = 12;
+        public float distanceMin = 12;
 
         // 以下分别是PosY,PosZ，RotX的默认系数
         //public float offsetY = 0.4f;
@@ -77,17 +78,34 @@ namespace SFramework
             ManualUpdate, // user must call to update camera
         }
 
+        /// <summary>
+        /// 限制Camera移动范围
+        /// </summary>
+        /// <param name="xMax"></param>
+        /// <param name="xMin"></param>
+        /// <param name="zMax"></param>
+        /// <param name="zMin"></param>
+        public void SetAreaLimit(float xMax, float xMin, float zMax, float zMin)
+        {
+            EnableAreaLimit = true;
+            xMaxLimit = xMax;
+            xMinLimit = xMin;
+            zMaxLimit = zMax;
+            zMinLimit = zMin;
+        }
+
         private void Start()
         {
-            if (m_AutoTarget)
+            if (autoTarget)
             {
                 FindAndTargetPlayer();
             }
-            if (m_TargetEnemy)
+            if (targetEnemy)
             {
                 FindAndTargetEnemy();
             }
-            if (playerTransform == null) return;
+            if (playerTransform == null)
+                return;
         }
 
         private void FindAndTargetPlayer()
@@ -110,29 +128,13 @@ namespace SFramework
             }
         }
 
-        /// <summary>
-        /// 限制Camera移动范围
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="x_"></param>
-        /// <param name="z"></param>
-        /// <param name="z_"></param>
-        public void SetAreaLimit(float x, float x_, float z, float z_)
-        {
-            EnableAreaLimit = true;
-            xLimit = x;
-            x_Limit = x_;
-            zLimit = z;
-            z_Limit = z_;
-        }
-
         private void FollowTarget(float deltaTime)
         {
             // 退出判断
             if (deltaTime <= 0 || playerTransform == null)
                 return;
-
-            if(m_TargetEnemy&& enemyTransform!=null && playerTransform.gameObject.activeSelf)
+            // TargetEnemy
+            if(targetEnemy&& enemyTransform!=null && playerTransform.gameObject.activeSelf)
             {
                 distance = Vector3.Distance(playerTransform.position, enemyTransform.position);
                 // 通过系数计算offset
@@ -140,47 +142,47 @@ namespace SFramework
                 //Quaternion q = Quaternion.identity;
                 //if (distance > distanceMin)
                 //{
+
                 //    aimPos += new Vector3(0, 1.6f, -4);
-                //    q= Quaternion.Euler(2.5f, 0, 0);
+                //    q = Quaternion.Euler(2.5f, 0, 0);
                 //}
-                transform.position = Vector3.Lerp(transform.position, aimPos , deltaTime * m_MoveSpeed);
+                transform.position = Vector3.Lerp(transform.position, aimPos , deltaTime * moveSpeed);
                 // 通过系数计算RotX
-                //transform.rotation = Quaternion.Slerp(transform.rotation, q, deltaTime * m_RotSpeed);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, q, deltaTime * rotSpeed);
             }
+            // TargetPlayer
             else
             {
-                transform.position = Vector3.Lerp(transform.position, playerTransform.position, deltaTime * m_MoveSpeed);
+                transform.position = Vector3.Lerp(transform.position, playerTransform.position, deltaTime * moveSpeed);
             }
-            if (!EnableAreaLimit)
-                return;
-            else
+            if (EnableAreaLimit)
             {
                 // 限制相机移动范围
-                clampPos = new Vector3(Mathf.Clamp(playerTransform.position.x, x_Limit, xLimit), playerTransform.position.y,
-                    Mathf.Clamp(playerTransform.position.z, z_Limit, zLimit));
-                transform.position = Vector3.Lerp(transform.position, clampPos, deltaTime * m_MoveSpeed);
+                clampPos = new Vector3(Mathf.Clamp(playerTransform.position.x, xMinLimit, xMaxLimit), playerTransform.position.y,
+                    Mathf.Clamp(playerTransform.position.z, zMinLimit, zMaxLimit));
+                transform.position = Vector3.Lerp(transform.position, clampPos, deltaTime * moveSpeed);
             }
         }
 
         private void LaterUpdate()
         {
-            if (m_AutoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
+            if (autoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
                 FindAndTargetPlayer();
-            if (m_TargetEnemy)
+            if (targetEnemy)
                 FindAndTargetEnemy();
-            if (m_UpdateType == UpdateType.LateUpdate)
+            if (updateType == UpdateType.LateUpdate)
                 FollowTarget(Time.deltaTime);
         }
 
         private void ManualUpdate()
         {
-            if (m_AutoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
+            if (autoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
             {
                 FindAndTargetPlayer();
             }
-            if (m_TargetEnemy)
+            if (targetEnemy)
                 FindAndTargetEnemy();
-            if (m_UpdateType == UpdateType.ManualUpdate)
+            if (updateType == UpdateType.ManualUpdate)
             {
                 FollowTarget(Time.deltaTime);
             }
@@ -188,15 +190,15 @@ namespace SFramework
 
         private void FixedUpdate()
         {
-            if (m_AutoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
+            if (autoTarget && (playerTransform == null || !playerTransform.gameObject.activeSelf))
             {
                 FindAndTargetPlayer();
             }
-            if (m_TargetEnemy && (enemyTransform == null || !enemyTransform.gameObject.activeSelf))
+            if (targetEnemy && (enemyTransform == null || !enemyTransform.gameObject.activeSelf))
             {
                 FindAndTargetEnemy();
             }
-            if (m_UpdateType == UpdateType.FixedUpdate)
+            if (updateType == UpdateType.FixedUpdate)
             {
                 FollowTarget(Time.deltaTime);
             }

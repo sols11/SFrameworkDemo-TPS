@@ -118,13 +118,17 @@ Light:
     type: 3}
   m_PrefabInstance: {fileID: 1713732022}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &446380973
+--- !u!1001 &259985514
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1420911821555450, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
+      propertyPath: m_Name
+      value: LevelCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 1420911821555450, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -161,10 +165,26 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4630704137892834, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4630704137892834, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4630704137892834, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114767185305769334, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a,
         type: 3}
-      propertyPath: m_TargetEnemy
+      propertyPath: targetEnemy
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233336776348000, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac60bcbb26fa3d4a8b22b80ef3d0e5a, type: 3}
@@ -367,6 +387,99 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4fbd1bd7ec958c4599e5ad96c4453f8, type: 3}
+--- !u!1 &1928357145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8517227751341513802, guid: 4162dc7695705284aae6a08f5490d826,
+    type: 3}
+  m_PrefabInstance: {fileID: 7090253369883561854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1928357146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928357145}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b62394dd1b8b4045b90c781339341a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 1
+  directionStrength: {x: 0, y: 1, z: 0}
+  speed: 1
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.13
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.33
+      value: -0.33
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.17
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.71
+      value: -0.12
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1928357147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928357145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73cfbd177624590419c267e620bfeb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2782107130103119910 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2782107130103119910, guid: c16dd178c12e8cf43a4f71692cd8ddec,
@@ -936,6 +1049,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreeLookCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 7322728400798371843, guid: 4162dc7695705284aae6a08f5490d826,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6150507278735383997, guid: 4162dc7695705284aae6a08f5490d826,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -999,7 +1117,7 @@ PrefabInstance:
     - target: {fileID: 5661247954307508723, guid: 4162dc7695705284aae6a08f5490d826,
         type: 3}
       propertyPath: m_MoveSpeed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5900639879569020178, guid: 4162dc7695705284aae6a08f5490d826,
         type: 3}

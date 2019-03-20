@@ -45,6 +45,7 @@ namespace ProjectScript
         // Directions
         private Vector3 targetDirection;        // 输入的方向
         private Vector3 forwardDirection;       // 存储输入后的朝向
+        private Transform mainCamera;
 
         /// <summary>
         /// 创建时的初始化
@@ -62,6 +63,11 @@ namespace ProjectScript
         /// </summary>
         public override void Initialize()
         {
+            if (Camera.main != null)
+                mainCamera = Camera.main.transform;
+            else
+                Debug.LogWarning("No Main Camera Found! 将无法朝向相机正向移动");
+
         }
 
         public override void Release()
@@ -91,8 +97,17 @@ namespace ProjectScript
             v = Input.GetAxisRaw("Vertical");
             Vector3 inputDir = new Vector3(h, 0, v).normalized;
 
-            // 用四元数绕Y轴旋转向量，使其和相机y朝向一致
-            targetDirection = Quaternion.AngleAxis(0, Vector3.up) * inputDir;
+            if (mainCamera != null)
+            {
+                // 获得剔除y轴影响后的相机朝向（即mainCamera.forward在XZ平面上的投影）
+                forwardDirection = Vector3.Scale(mainCamera.forward, new Vector3(1, 0, 1)).normalized;
+                targetDirection = v * forwardDirection + h * mainCamera.right;
+            }
+            else
+            {   
+                // 用四元数绕Y轴旋转向量，使其和y朝向一致
+                targetDirection = Quaternion.AngleAxis(0, Vector3.up) * inputDir;
+            }
             // 移动状态时使用平滑旋转
             if (stateInfo.IsName(staCombatIdle) || stateInfo.IsName(staCombatRun) || stateInfo.IsName(staCombatRunShoot))
             {
