@@ -25,8 +25,8 @@ namespace SFramework
 	public class IPlayer : ICharacter
 	{
 		protected bool canMove = false;   // CanMovePosition
-		protected float h;  // 水平移动
-		protected float v;  // 垂直移动
+		protected float horizontal;  // 水平移动
+		protected float vertical;  // 垂直移动
         protected GameData gameData;
 
 		public float Speed { get; set; }
@@ -64,7 +64,7 @@ namespace SFramework
         public virtual bool CanMove
 		{
 			get { return canMove; }
-			set { h = 0; v = 0; canMove = value; }
+			set { horizontal = 0; vertical = 0; canMove = value; }
 		}
 		public bool CanRotate { get; set; }
         public PlayerMediator PlayerMedi { get; set; }

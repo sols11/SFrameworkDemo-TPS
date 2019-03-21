@@ -25,22 +25,26 @@ namespace ProjectScript
             get { return canMove; }
             set
             {
-                h = 0; v = 0;
+                horizontal = 0; vertical = 0;
                 canMove = value;
                 Speed = 0;
                 if (!canMove)
                     animator.SetFloat(aniSpeed, 0);
             }
         }
-
+        // Fields
+        private float moveSpeed;
+        private bool isCombatState = true;
         // Animator States
-        private string staCombatIdle = "handgun_combat_idle";
+        private string staCombatMove = "HandgunCombatMove";
         private string staCombatWalk = "handgun_combat_walk";
         private string staCombatRun = "handgun_combat_run";
         private string staCombatShoot = "handgun_combat_shoot";
         private string staCombatRunShoot = "handgun_combat_run_shooting";
         // Parameters
         private string aniSpeed = "Speed";
+        private string aniSpeedX = "SpeedX";
+        private string aniSpeedY = "SpeedY";
         private string aniShoot = "Shoot";
         // Directions
         private Vector3 targetDirection;        // 输入的方向
@@ -56,6 +60,7 @@ namespace ProjectScript
             // 以下是其他属性
             CanMove = true;
             CanRotate = true;
+            Speed = 4;
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace ProjectScript
                 mainCamera = Camera.main.transform;
             else
                 Debug.LogWarning("No Main Camera Found! 将无法朝向相机正向移动");
-
+            moveSpeed = Speed; 
         }
 
         public override void Release()
@@ -79,8 +84,8 @@ namespace ProjectScript
         {
             // 物理移动
             if (CanMove)
-                if (stateInfo.IsName(staCombatIdle) || stateInfo.IsName(staCombatRun) || stateInfo.IsName(staCombatRunShoot))
-                    GroundMove(h, v);
+                if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRun) || stateInfo.IsName(staCombatRunShoot))
+                    GroundMove();
         }
 
         public override void Update()
@@ -89,19 +94,21 @@ namespace ProjectScript
             // 关于对话时禁止移动的办法，我们有做过InputMgr来实现，但暂时不添加这个功能
             MoveInput();
             AttackInput();
+            if (Input.GetButtonDown("Draw"))
+                isCombatState = !isCombatState;
         }
 
         private void MoveInput()
         {
-            h = Input.GetAxisRaw("Horizontal");
-            v = Input.GetAxisRaw("Vertical");
-            Vector3 inputDir = new Vector3(h, 0, v).normalized;
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+            Vector3 inputDir = new Vector3(horizontal, 0, vertical).normalized;
 
             if (mainCamera != null)
             {
                 // 获得剔除y轴影响后的相机朝向（即mainCamera.forward在XZ平面上的投影）
                 forwardDirection = Vector3.Scale(mainCamera.forward, new Vector3(1, 0, 1)).normalized;
-                targetDirection = v * forwardDirection + h * mainCamera.right;
+                targetDirection = vertical * forwardDirection + horizontal * mainCamera.right;
             }
             else
             {   
@@ -109,17 +116,18 @@ namespace ProjectScript
                 targetDirection = Quaternion.AngleAxis(0, Vector3.up) * inputDir;
             }
             // 移动状态时使用平滑旋转
-            if (stateInfo.IsName(staCombatIdle) || stateInfo.IsName(staCombatRun) || stateInfo.IsName(staCombatRunShoot))
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot))
             {
                 if (CanRotate)
                     Rotating();
             }
-            // 是否切换为Run
-            if (Mathf.Abs(h) > 0.1 || Mathf.Abs(v) > 0.1)
-                Speed = 1;
+            // 是否处于移动状态
+            if (Mathf.Abs(horizontal) > 0.1 || Mathf.Abs(vertical) > 0.1)
+                moveSpeed = Speed;
             else
-                Speed = 0;
-            animator.SetFloat(aniSpeed, Speed);
+                moveSpeed = 0;
+            animator.SetFloat(aniSpeedX, horizontal);
+            animator.SetFloat(aniSpeedY, vertical);
         }
 
         /// <summary>
@@ -127,11 +135,20 @@ namespace ProjectScript
         /// </summary>
         private void Rotating()
         {
-            //计算出旋转
-            if (targetDirection != Vector3.zero)
+            // Combat状态下，角色朝向随相机朝向变化而变化
+            if (isCombatState && forwardDirection != Vector3.zero)
             {
                 // 目标方向的旋转角度
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+                Quaternion targetRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);     
+                // 平滑插值
+                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
+                Rgbd.MoveRotation(newRotation);
+            }
+            // Normal状态下，角色朝向随输入方向变化而变化
+            else if (targetDirection != Vector3.zero)
+            {
+                // 目标方向的旋转角度
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);     
                 // 平滑插值
                 Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
                 Rgbd.MoveRotation(newRotation);
@@ -143,16 +160,16 @@ namespace ProjectScript
         /// </summary>
         /// <param name="h"></param>
         /// <param name="v"></param>
-        private void GroundMove(float h, float v)
+        private void GroundMove()
         {
             // Speed = 4 村子里移动速度慢
-            if (Speed != 0)
+            if (moveSpeed != 0)
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
         }
 
         private void AttackInput()
         {
-            if (stateInfo.IsName(staCombatIdle) || stateInfo.IsName(staCombatShoot) || stateInfo.IsName(staCombatRun))
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatShoot))
             {
                 if(Input.GetButtonDown("Fire1"))
                     animator.SetTrigger(aniShoot);
