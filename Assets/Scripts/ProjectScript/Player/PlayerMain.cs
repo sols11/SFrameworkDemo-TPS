@@ -50,11 +50,11 @@ namespace ProjectScript
         private Vector3 targetDirection;        // 输入的方向
         private Vector3 forwardDirection;       // 存储输入后的朝向
         private Transform mainCamera;
-        private float zoomInFov = 28;
-        private float zoomTime = 0.15f;
-        private float originalFov;
-        private float zoomLevel = 1;    // used to change fov of camera
-        private float zoomLevelVelocity = 1;
+        private float zoomInFov = 28;           // 瞄准时的fov
+        private float zoomTime = 0.15f;         // changeFov所需时间
+        private float originalFov;              // 初始fov
+        private float zoomLevel = 0;            // 插值
+        private float zoomLevelVelocity;
 
         /// <summary>
         /// 创建时的初始化
@@ -90,10 +90,14 @@ namespace ProjectScript
 
         public override void FixedUpdate()
         {
-            // 物理移动
-            if (CanMove)
-                if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRun) || stateInfo.IsName(staCombatRunShoot))
+            // 物理移动和旋转
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot))
+            {
+                if (CanMove)
                     GroundMove();
+                if (CanRotate)
+                    Rotating();
+            }
         }
 
         public override void Update()
@@ -124,12 +128,6 @@ namespace ProjectScript
                 // 用四元数绕Y轴旋转向量，使其和y朝向一致
                 targetDirection = Quaternion.AngleAxis(0, Vector3.up) * inputDir;
             }
-            // 移动状态时使用平滑旋转
-            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot))
-            {
-                if (CanRotate)
-                    Rotating();
-            }
             // 是否处于移动状态
             if (Mathf.Abs(horizontal) > 0.1 || Mathf.Abs(vertical) > 0.1)
                 moveSpeed = Speed;
@@ -149,17 +147,16 @@ namespace ProjectScript
             {
                 // 目标方向的旋转角度
                 Quaternion targetRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);     
-                // 平滑插值
-                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 10 * Time.deltaTime);
-                Rgbd.MoveRotation(newRotation);
+                // 不需要平滑插值
+                Rgbd.MoveRotation(targetRotation);
             }
             // Normal状态下，角色朝向随输入方向变化而变化
             else if (targetDirection != Vector3.zero)
             {
                 // 目标方向的旋转角度
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);     
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
                 // 平滑插值
-                //Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
+                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
                 Rgbd.MoveRotation(targetRotation);
             }
         }
@@ -181,13 +178,12 @@ namespace ProjectScript
             if(Input.GetButton("Fire2"))    // 鼠标右键瞄准
             {
                 zoomLevel = Mathf.SmoothDamp(zoomLevel, 1, ref zoomLevelVelocity, zoomTime);    // 随着时间的推移逐渐将值改变为期望的目标
-                Camera.main.fieldOfView = Mathf.Lerp(originalFov, zoomInFov, zoomLevel);
             }
             else if(Camera.main.fieldOfView < originalFov - 0.01f)
             {
                 zoomLevel = Mathf.SmoothDamp(zoomLevel, 0, ref zoomLevelVelocity, zoomTime);
-                Camera.main.fieldOfView = Mathf.Lerp(originalFov, zoomInFov, zoomLevel);
             }
+            Camera.main.fieldOfView = Mathf.Lerp(originalFov, zoomInFov, zoomLevel);
         }
 
         private void AttackInput()
