@@ -50,6 +50,11 @@ namespace ProjectScript
         private Vector3 targetDirection;        // 输入的方向
         private Vector3 forwardDirection;       // 存储输入后的朝向
         private Transform mainCamera;
+        private float zoomInFov = 28;
+        private float zoomTime = 0.15f;
+        private float originalFov;
+        private float zoomLevel = 1;    // used to change fov of camera
+        private float zoomLevelVelocity = 1;
 
         /// <summary>
         /// 创建时的初始化
@@ -69,7 +74,10 @@ namespace ProjectScript
         public override void Initialize()
         {
             if (Camera.main != null)
+            {
                 mainCamera = Camera.main.transform;
+                originalFov = Camera.main.fieldOfView;
+            }
             else
                 Debug.LogWarning("No Main Camera Found! 将无法朝向相机正向移动");
             moveSpeed = Speed; 
@@ -96,6 +104,7 @@ namespace ProjectScript
             AttackInput();
             if (Input.GetButtonDown("Draw"))
                 isCombatState = !isCombatState;
+            ChangeFov();
         }
 
         private void MoveInput()
@@ -141,7 +150,7 @@ namespace ProjectScript
                 // 目标方向的旋转角度
                 Quaternion targetRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);     
                 // 平滑插值
-                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
+                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 10 * Time.deltaTime);
                 Rgbd.MoveRotation(newRotation);
             }
             // Normal状态下，角色朝向随输入方向变化而变化
@@ -150,8 +159,8 @@ namespace ProjectScript
                 // 目标方向的旋转角度
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);     
                 // 平滑插值
-                Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
-                Rgbd.MoveRotation(newRotation);
+                //Quaternion newRotation = Quaternion.Slerp(Rgbd.rotation, targetRotation, 5 * Time.deltaTime);
+                Rgbd.MoveRotation(targetRotation);
             }
         }
 
@@ -165,6 +174,20 @@ namespace ProjectScript
             // Speed = 4 村子里移动速度慢
             if (moveSpeed != 0)
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
+        }
+
+        private void ChangeFov()
+        {
+            if(Input.GetButton("Fire2"))    // 鼠标右键瞄准
+            {
+                zoomLevel = Mathf.SmoothDamp(zoomLevel, 1, ref zoomLevelVelocity, zoomTime);    // 随着时间的推移逐渐将值改变为期望的目标
+                Camera.main.fieldOfView = Mathf.Lerp(originalFov, zoomInFov, zoomLevel);
+            }
+            else if(Camera.main.fieldOfView < originalFov - 0.01f)
+            {
+                zoomLevel = Mathf.SmoothDamp(zoomLevel, 0, ref zoomLevelVelocity, zoomTime);
+                Camera.main.fieldOfView = Mathf.Lerp(originalFov, zoomInFov, zoomLevel);
+            }
         }
 
         private void AttackInput()
