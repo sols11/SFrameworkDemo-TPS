@@ -73,7 +73,7 @@ namespace SFramework
                     // 移除文件名后缀
                     string str = fi.Name.Remove(fi.Name.LastIndexOf('.'));
                     // 加入路径字典
-                    formToPathDict.Add(str, @"UI\" + str);
+                    formToPathDict.Add(str, @"UI/" + str);
                     Debug.Log("UI确认：" + str);
                 }
                 Debug.Log("UI文件确认完毕");

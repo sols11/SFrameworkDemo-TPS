@@ -25,7 +25,7 @@ namespace SFramework
     /// </summary>
     public class FileMgr : IGameMgr
     {
-        private string dataBasePath = Application.streamingAssetsPath + @"\DataBase\";
+        private string dataBasePath = Application.streamingAssetsPath + @"/DataBase/";
 
         public FileMgr(GameMainProgram gameMain):base(gameMain)
 		{
@@ -56,9 +56,10 @@ namespace SFramework
         /// <returns></returns>
         public T LoadJsonDataBase<T>(string _name)
         {
-            if (!File.Exists(dataBasePath + _name + ".json")) // 检查存在
+            string filePath = dataBasePath + _name + ".json";
+            if (!File.Exists(filePath)) // 检查存在
             {
-                Debug.LogError("Json文件不存在");
+                Debug.LogError(filePath + "文件不存在");
                 return default(T);
             }
             StreamReader sr = File.OpenText(dataBasePath + _name + ".json");

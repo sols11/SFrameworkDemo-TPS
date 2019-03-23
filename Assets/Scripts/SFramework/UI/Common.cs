@@ -88,7 +88,7 @@ namespace SFramework
     {
         /* 路径常量 */
         public const string SYS_PATH_CANVAS = "Canvas";
-        public const string SYS_PATH_UI = @"\Resources\UI\";
+        public const string SYS_PATH_UI = @"/Resources/UI/";
         /* 标签常量 */
         public const string SYS_TAG_CANVAS = "Canvas";
         /* 节点常量 */

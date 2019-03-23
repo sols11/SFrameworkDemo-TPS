@@ -27,7 +27,7 @@ namespace SFramework
         private GameObject gameObject;                       // 场景中对应的GameObject（AudioMgr）
         private AudioSource musicAudioSource;                // 音源组件
         private List<AudioSource> soundAudioSources;         // 管理所有音效
-        private string musicResouceDir = @"Musics\";         // 存放路径
+        private string musicResouceDir = @"Musics/";         // 存放路径
 
         public AudioMgr(GameMainProgram gameMain) : base(gameMain)
         {
