@@ -106,9 +106,7 @@ namespace ProjectScript
             // 关于对话时禁止移动的办法，我们有做过InputMgr来实现，但暂时不添加这个功能
             MoveInput();
             AttackInput();
-            if (Input.GetButtonDown("Draw"))
-                isCombatState = !isCombatState;
-            ChangeFov();
+            BasicInput();
         }
 
         private void MoveInput()
@@ -173,9 +171,13 @@ namespace ProjectScript
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
         }
 
-        private void ChangeFov()
+        private void BasicInput()
         {
-            if(Input.GetButton("Fire2"))    // 鼠标右键瞄准
+            // 拔枪，切换状态
+            if (Input.GetButtonDown("Draw"))
+                isCombatState = !isCombatState;
+
+            if (Input.GetButton("Fire2"))    // 鼠标右键瞄准
             {
                 zoomLevel = Mathf.SmoothDamp(zoomLevel, 1, ref zoomLevelVelocity, zoomTime);    // 随着时间的推移逐渐将值改变为期望的目标
             }
