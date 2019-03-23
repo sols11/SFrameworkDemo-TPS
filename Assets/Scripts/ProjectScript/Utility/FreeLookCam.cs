@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using SFramework;
 
 namespace UnityStandardAssets.Cameras
 {
@@ -20,6 +21,7 @@ namespace UnityStandardAssets.Cameras
         [SerializeField] private float m_TiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
         [SerializeField] private bool m_LockCursor = false;                   // Whether the cursor should be hidden and locked.
         [SerializeField] private bool m_VerticalAutoReturn = false;           // set wether or not the vertical axis should auto return
+        [SerializeField] private Transform weaponNode;
 
         private float m_LookAngle;                    // The rig's y axis rotation.
         private float m_TiltAngle;                    // The pivot's x axis rotation.
@@ -51,7 +53,6 @@ namespace UnityStandardAssets.Cameras
             }
         }
 
-
         private void OnDisable()
         {
             Cursor.lockState = CursorLockMode.None;
@@ -64,6 +65,12 @@ namespace UnityStandardAssets.Cameras
             if (m_Target == null) return;
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime*m_MoveSpeed);
+            if (weaponNode == null)
+            {
+                IPlayerMono playerMono = m_Target.GetComponent<IPlayerMono>();
+                if(playerMono)
+                    weaponNode = playerMono.iPlayerWeapon.transform;
+            }
         }
 
 
@@ -100,7 +107,10 @@ namespace UnityStandardAssets.Cameras
             // Tilt input around X is applied to the pivot (the child of this object)
 			m_PivotTargetRot = Quaternion.Euler(m_TiltAngle, m_PivotEulers.y , m_PivotEulers.z);
 
-			if (m_TurnSmoothing > 0)
+            if(weaponNode)
+                weaponNode.localRotation = Quaternion.Euler(0, 0, -m_TiltAngle);
+
+            if (m_TurnSmoothing > 0)
 			{
 				m_Pivot.localRotation = Quaternion.Slerp(m_Pivot.localRotation, m_PivotTargetRot, m_TurnSmoothing * Time.deltaTime);
 				transform.localRotation = Quaternion.Slerp(transform.localRotation, m_TransformTargetRot, m_TurnSmoothing * Time.deltaTime);
