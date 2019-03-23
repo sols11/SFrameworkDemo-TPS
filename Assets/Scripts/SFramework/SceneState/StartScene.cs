@@ -34,7 +34,7 @@ namespace SFramework
 
             // UI，BGM
             GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
-            GameMainProgram.Instance.uiManager.ShowUIForms("AimTarget");
+            GameMainProgram.Instance.uiManager.ShowUIForms("Crosshair");
             //gameMainProgram.audioMgr.PlayMusic(0);
         }
 
