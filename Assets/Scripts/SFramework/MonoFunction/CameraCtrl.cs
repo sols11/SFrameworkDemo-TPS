@@ -6,14 +6,21 @@ Date:
 Description:
     简介：相机控制系统
     作用：
-    使用：
+    使用：我们为Camera制定了一个Prefab，默认是4层结构。
+            顶层root结点一般是和transform同步的跟随结点，这个transform会根据具体情况计算出来
+                根据不同项目的实现，可能会挂载AutoCam，FreeLookCam等具体的相机脚本
+            次层pivot结点负责一些偏移
+            然后的MainCamera结点，是Camera实际所在的位置，挂载该脚本
+            最后是PreCamera结点，负责显示一些前置特效之类的
     补充：TODO：如果需要一些特殊效果，可以添加DoTween之类的插件
+                具体Camera实现结构需改进
 History:
 ----------------------------------------------------------------------------*/
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Cameras;
 
 namespace SFramework {
 
@@ -24,7 +31,7 @@ namespace SFramework {
         private static CameraCtrl _instance;
         private Camera mainCamera;
         private ShakeObject shakeComponent;
-        private AutoCam autoCam;
+        private FreeLookCam rootNodeCamera;
 
         public static CameraCtrl Instance
         {
@@ -55,7 +62,7 @@ namespace SFramework {
             if (mainCamera)
             {
                 shakeComponent = mainCamera.GetComponent<ShakeObject>();
-                autoCam = mainCamera.GetComponentInParent<AutoCam>();
+                rootNodeCamera = mainCamera.GetComponentInParent<FreeLookCam>();
             }
         }
 
@@ -79,16 +86,16 @@ namespace SFramework {
         /// <param name="z_"></param>
         public void SetAreaLimit(float x, float x_, float z, float z_)
         {
-            autoCam.SetAreaLimit(x, x_, z, z_);
+            //rootNodeCamera.SetAreaLimit(x, x_, z, z_);
         }
 
         /// <summary>
-        /// 设置是否启用AutoCam
+        /// 设置是否启用Camera
         /// </summary>
         /// <param name="enable"></param>
-        public void EnableAutoCam(bool enable)
+        public void EnableRootNodeCamera(bool enable)
         {
-            autoCam.enabled = enable;
+            //rootNodeCamera.enabled = enable;
         }
     }
 }

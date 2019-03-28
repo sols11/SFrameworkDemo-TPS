@@ -53,6 +53,10 @@ namespace SFramework
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
 
+        /// <summary>
+        /// 提供给外部调用，使用武器进行攻击，具体实现由子类完成
+        /// </summary>
+        public virtual void Attack() { }
         protected virtual void OnTriggerEnter(Collider col) { }
 
     }

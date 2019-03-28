@@ -297,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   voice: []
   sound: []
-  iPlayerWeapon: {fileID: 0}
+  iPlayerWeapon: {fileID: 7212630322527124294}
 --- !u!1 &5737604720987310907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1276,8 @@ GameObject:
   - component: {fileID: 5743288874698322579}
   - component: {fileID: 5752048137763273239}
   - component: {fileID: 5760538600909263929}
-  m_Layer: 0
+  - component: {fileID: 7212630322527124294}
+  m_Layer: 12
   m_Name: weapon_fal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1342,6 +1343,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7212630322527124294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5739432724686244759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18cbbf44b2ef63e4da94851145eb4382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AttackFactor: 1
+  m_VelocityForward: 6
+  m_VelocityVertical: 0
+  canDefeatedFly: 0
 --- !u!1 &5739472142376700149
 GameObject:
   m_ObjectHideFlags: 0
