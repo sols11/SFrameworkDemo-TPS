@@ -1277,7 +1277,7 @@ GameObject:
   - component: {fileID: 5752048137763273239}
   - component: {fileID: 5760538600909263929}
   - component: {fileID: 7212630322527124294}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: weapon_fal
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -192,9 +192,17 @@ namespace ProjectScript
         {
             if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatShoot))
             {
-                if(Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown("Fire1"))
+                {
                     animator.SetTrigger(aniShoot);
+                    ShootFire();
+                }
             }
+        }
+
+        private void ShootFire()
+        {
+            PlayerMedi.PlayerWeapon.Attack();
         }
     }
 }

@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Canvas
+  - UICamera
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -13,15 +16,15 @@ TagManager:
   - UI
   - 
   - 
+  - Ground
+  - Player
+  - Enemy
+  - Effect
+  - PlayerWeapon
+  - EnemyWeapon
+  - Without
+  - Wall
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
