@@ -8,11 +8,13 @@ namespace ProjectScript
     public class WeaponHandgun : IPlayerWeapon
     {
         public Transform bulletPosition;
+        public GameObject muzzleFlashEffect;
         private string shootEffect = @"Particles\BulletTrail";
 
         public override void Attack()
         {
             // 特效
+            muzzleFlashEffect.SetActive(true);
             resourcesMgr.LoadAsset(shootEffect, true, bulletPosition.position, Quaternion.identity);
 
             // 碰撞检测
