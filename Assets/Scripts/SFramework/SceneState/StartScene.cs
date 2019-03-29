@@ -35,7 +35,7 @@ namespace SFramework
                 (@"Enemys\Enemy", false, new Vector3(4, 0, 4), Quaternion.Euler(0, -180, 0))));
 
             // UI，BGM
-            GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
+            //GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
             GameMainProgram.Instance.uiManager.ShowUIForms("Crosshair");
             //gameMainProgram.audioMgr.PlayMusic(0);
         }
