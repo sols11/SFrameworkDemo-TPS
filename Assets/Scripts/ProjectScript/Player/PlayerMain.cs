@@ -29,7 +29,7 @@ namespace ProjectScript
                 canMove = value;
                 Speed = 0;
                 if (!canMove)
-                    animator.SetFloat(aniSpeed, 0);
+                    animator.SetFloat(animSpeed, 0);
             }
         }
         // Fields
@@ -45,10 +45,11 @@ namespace ProjectScript
         private string staCombatShoot = "handgun_combat_shoot";
         private string staCombatRunShoot = "handgun_combat_run_shooting";
         // Parameters
-        private string aniSpeed = "Speed";
-        private string aniSpeedX = "SpeedX";
-        private string aniSpeedY = "SpeedY";
-        private string aniShoot = "Shoot";
+        private string animHurt = "Hurt";
+        private string animSpeed = "Speed";
+        private string animSpeedX = "SpeedX";
+        private string animSpeedY = "SpeedY";
+        private string animShoot = "Shoot";
         // Directions
         private Vector3 targetDirection;        // 输入的方向
         private Vector3 forwardDirection;       // 存储输入后的朝向
@@ -134,8 +135,8 @@ namespace ProjectScript
                 moveSpeed = Speed;
             else
                 moveSpeed = 0;
-            animator.SetFloat(aniSpeedX, horizontal);
-            animator.SetFloat(aniSpeedY, vertical);
+            animator.SetFloat(animSpeedX, horizontal);
+            animator.SetFloat(animSpeedY, vertical);
         }
 
         /// <summary>
@@ -199,7 +200,7 @@ namespace ProjectScript
             {
                 if (Input.GetButtonDown("Fire1") && fireTimer <= 0)
                 {
-                    animator.SetTrigger(aniShoot);
+                    animator.SetTrigger(animShoot);
                     ShootFire();
                     fireTimer = fireRate;
                     --currentBullet;
@@ -210,6 +211,15 @@ namespace ProjectScript
         private void ShootFire()
         {
             PlayerMedi.PlayerWeapon.Attack();
+        }
+
+        public override void Hurt(PlayerHurtAttr playerHurtAttr)
+        {
+            if (stateInfo.IsName("Dead"))
+                return;
+            animator.SetTrigger(animHurt);
+            CurrentHP -= playerHurtAttr.Attack;
+            Debug.Log("PlayerHurt:" + playerHurtAttr.Attack);
         }
     }
 }
