@@ -34,6 +34,7 @@ namespace ProjectScript
         }
         // Fields
         private float moveSpeed;
+        private float jumpPower = 6;
         private bool isCombatState = true;
         private int currentBullet = 0;
         private float fireRate = 0.5f;
@@ -49,6 +50,7 @@ namespace ProjectScript
         private string animSpeed = "Speed";
         private string animSpeedX = "SpeedX";
         private string animSpeedY = "SpeedY";
+        private string animJump = "Jump";
         private string animShoot = "Shoot";
         // Directions
         private Vector3 targetDirection;        // 输入的方向
@@ -173,6 +175,13 @@ namespace ProjectScript
             // Speed = 4 村子里移动速度慢
             if (moveSpeed != 0)
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
+
+            if(Input.GetButtonDown("Jump"))
+            {
+                Rgbd.velocity = new Vector3(Rgbd.velocity.x, jumpPower, Rgbd.velocity.z);
+                animator.SetTrigger(animJump);
+            }
+
         }
 
         private void BasicInput()
