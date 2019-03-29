@@ -30,6 +30,7 @@ namespace SFramework
             if (GameObjectInScene != null)
                 GameObject.Destroy(GameObjectInScene);
         }
+
         public virtual EnemyAction Hurt(EnemyHurtAttr enemyHurtAttr)
 		{
             return EnemyAction.Hurt;

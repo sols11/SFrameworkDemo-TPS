@@ -14,6 +14,7 @@ namespace ProjectScript
 
             if (Physics.Raycast(ray, out hit))
             {
+                    Debug.Log("射线");
                 if (hit.transform.gameObject.layer == (int)ObjectLayer.Enemy)
                 {
                     RealAttack = BasicAttack * AttackFactor;

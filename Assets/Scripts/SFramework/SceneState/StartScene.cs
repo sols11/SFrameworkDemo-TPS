@@ -30,7 +30,9 @@ namespace SFramework
             // 场景初始化
             gameMainProgram.playerMgr.BuildPlayer(Vector3.zero, Quaternion.identity);
             gameMainProgram.playerMgr.CanInput = true;  // 接受输入
-                                                        // 其他角色在Player之后创建
+            // 其他角色在Player之后创建
+            gameMainProgram.enemyMgr.AddEnemy(new ProjectScript.EnemyMain(gameMainProgram.resourcesMgr.LoadAsset
+                (@"Enemys\Enemy", false, new Vector3(4, 0, 4), Quaternion.Euler(0, -180, 0))));
 
             // UI，BGM
             GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
