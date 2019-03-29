@@ -14,7 +14,6 @@ namespace ProjectScript
 
             if (Physics.Raycast(ray, out hit))
             {
-                    Debug.Log("射线");
                 if (hit.transform.gameObject.layer == (int)ObjectLayer.Enemy)
                 {
                     RealAttack = BasicAttack * AttackFactor;
@@ -23,7 +22,6 @@ namespace ProjectScript
                     EnemyHurtAttribute.ModifyAttr((int)RealAttack, VelocityForward, VelocityVertical, TransformForward);
                     EnemyReturn = hit.transform.GetComponent<IEnemyMono>().Hurt(EnemyHurtAttribute);
                     // 特效
-                    Debug.Log("击中");
                 }
             }
         }  // end_function

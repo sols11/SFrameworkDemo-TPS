@@ -9,7 +9,7 @@ namespace SFramework
     /// + PlayerMediator
     /// 武器的控制层
     /// </summary>
-    public class IPlayerWeapon:IWeaponMono
+    public abstract class IPlayerWeapon:IWeaponMono
     {
         protected string hitEffectPath;   //打击特效
         protected List<GameObject> enemyList;
