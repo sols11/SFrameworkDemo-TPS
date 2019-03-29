@@ -35,6 +35,9 @@ namespace ProjectScript
         // Fields
         private float moveSpeed;
         private bool isCombatState = true;
+        private int currentBullet = 0;
+        private float fireRate = 0.5f;
+        private float fireTimer = 0;
         // Animator States
         private string staCombatMove = "HandgunCombatMove";
         private string staCombatWalk = "handgun_combat_walk";
@@ -190,12 +193,16 @@ namespace ProjectScript
 
         private void AttackInput()
         {
+            fireTimer -= Time.deltaTime;
+
             if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatShoot))
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown("Fire1") && fireTimer <= 0)
                 {
                     animator.SetTrigger(aniShoot);
                     ShootFire();
+                    fireTimer = fireRate;
+                    --currentBullet;
                 }
             }
         }
