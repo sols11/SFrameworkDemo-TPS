@@ -38,6 +38,7 @@ namespace SFramework
             //GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
             GameMainProgram.Instance.uiManager.ShowUIForms("Crosshair");
             GameMainProgram.Instance.uiManager.ShowUIForms("PlayerHUD");
+            GameMainProgram.Instance.uiManager.ShowUIForms("BulletIndicators");
             //gameMainProgram.audioMgr.PlayMusic(0);
         }
 
