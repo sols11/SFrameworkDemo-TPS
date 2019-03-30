@@ -53,7 +53,6 @@ namespace SFramework
                 }
                 else
                     Debug.LogWarning("iPlayerWeapon未赋值");
-                UpdatePlayerWeapon(PlayerMono.iPlayerWeapon);
             }
         }
 
