@@ -47,6 +47,7 @@ namespace ProjectScript
         private string staCombatRunShoot = "handgun_combat_run_shooting";
         // Parameters
         private string animHurt = "Hurt";
+        private string animDead = "Hurt";
         private string animSpeed = "Speed";
         private string animSpeedX = "SpeedX";
         private string animSpeedY = "SpeedY";
@@ -229,6 +230,12 @@ namespace ProjectScript
             animator.SetTrigger(animHurt);
             CurrentHP -= playerHurtAttr.Attack;
             Debug.Log("PlayerHurt:" + playerHurtAttr.Attack);
+        }
+
+        public override void Dead()
+        {
+            base.Dead();
+            animator.SetTrigger(animDead);
         }
     }
 }

@@ -1,28 +1,28 @@
 ﻿{
-    "野猪武器": {
-        "Type": 3,
+    "步枪": {
+        "Type": 2,
         "IconPath": "Icons\\Weapon\\Katana",
-        "Name": "野猪武器",
+        "Name": "步枪",
         "Detail": "",
         "CanSale": false,
         "Price": 0,
         "SalePrice": 1,
         "HP": 0,
         "SP": 0,
-        "Attack": 10,
+        "Attack": 20,
         "Defend": 0,
         "Crit": 0,
         "Speed": 0
     },
-    "野猪防具": {
-        "Type": 2,
+    "防具": {
+        "Type": 1,
         "IconPath": "Icons\\Cloth\\Cloth",
-        "Name": "野猪防具",
+        "Name": "防具",
         "Detail": "",
         "CanSale": false,
         "Price": 0,
         "SalePrice": 1,
-        "HP": 200,
+        "HP": 100,
         "SP": 0,
         "Attack": 0,
         "Defend": 0,

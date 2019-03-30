@@ -20,14 +20,19 @@ namespace ProjectScript
 {
     public class EnemyMain : IEnemy
     {
-        private string aniHurt = "Hurt";
-        private string aniDead = "Dead";
+        private string animHurt = "Hurt";
+        private string animDead = "Dead";
 
         public EnemyMain(GameObject gameObject) : base(gameObject)
         {
             MoveSpeed = 1;
             RotSpeed = 1;
             Name = "Enemy";
+            // 更换装备
+            EnemyMedi.Equip(GameMainProgram.Instance.dataBaseMgr.enemyEquipDict["步枪"]);
+            EnemyMedi.Equip(GameMainProgram.Instance.dataBaseMgr.enemyEquipDict["防具"]);
+            CurrentHP = MaxHP;
+            Debug.Log(MaxHP);
         }
 
         public override void Release()
@@ -47,7 +52,7 @@ namespace ProjectScript
                 // 伤害计算
                 int damage = enemyHurtAttr.Attack;
                 CurrentHP -= damage;
-                animator.SetTrigger(aniHurt);
+                animator.SetTrigger(animHurt);
                 Debug.Log("EnemyHurt:" + damage);
             }
             return EnemyAction.Hurt;
@@ -56,7 +61,7 @@ namespace ProjectScript
         public override void Dead()
         {
             base.Dead();
-            animator.SetTrigger(aniDead);
+            animator.SetTrigger(animDead);
             // GameObjectInScene.GetComponent<Collider>().enabled = false;
             GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BossDead);
         }

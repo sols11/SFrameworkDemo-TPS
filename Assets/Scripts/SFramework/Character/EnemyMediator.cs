@@ -13,6 +13,7 @@ namespace SFramework
         public IEnemyMono EnemyMono { get; set; }
         public IEnemyWeapon EnemyWeapon { get; set; }
         public IEquip WeaponData { get; set; }  // 和PlayerMediator不同的是，Enemy没有Fit[]，所以需要专门存储武器和防具
+        public IEquip ClothData { get; set; }
 
         public EnemyMediator(IEnemy enemy)
         {
@@ -39,10 +40,25 @@ namespace SFramework
                 else
                     Debug.LogError("iEnemyWeapon未赋值");
             }
-
-            UpdateEnemyWeapon(EnemyMono.iEnemyWeapon);
         }
 
+        public void Equip(IEquip equip)
+        {
+            Enemy.MaxHP += equip.HP;
+            Enemy.MaxSP += equip.SP;
+            EnemyWeapon.BasicAttack += equip.Attack;
+        }
+
+        /// <summary>
+        /// 卸下装备
+        /// </summary>
+        /// <param name="equip"></param>
+        private void UnEquip(IEquip equip)
+        {
+            Enemy.MaxHP -= equip.HP;
+            Enemy.MaxSP -= equip.SP;
+            EnemyWeapon.BasicAttack -= equip.Attack;
+        }
 
         /// <summary>
         /// 设置WeaponData，使用的是装备的武器
@@ -51,7 +67,8 @@ namespace SFramework
         /// <param name="enemyWeapon"></param>
         public void UpdateEnemyWeapon(IEnemyWeapon enemyWeapon)
         {
-
+            if (enemyWeapon == null)
+                return;
         }
     }
 
