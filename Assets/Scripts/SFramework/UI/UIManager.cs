@@ -6,7 +6,7 @@ Date:
 Description:
     简介：UI管理器
     作用：整个UI框架的核心，用户程序通过本脚本，来实现框架绝大多数的功能实现。
-    使用：我们提供了一个默认的Canvas，放在Resources\UI文件夹下，Canvas下的UI会分别保存在Normal, Fixed, Popup层级下。
+    使用：我们提供了一个默认的Canvas，放在Resources文件夹下，Canvas下的UI会分别保存在Normal, Fixed, Popup层级下。
            1.将你所需要显示的UI保存为Prefab，将其路径加入UIManager字典集中管理
            2.创建UI脚本，继承ViewBase，使用SFramework命名空间，放在项目命名空间下，设置
            3.写好button等的事件，调用UIManager的方法ShowUIForms和CloseUIForms来开关UI
@@ -232,7 +232,7 @@ namespace SFramework
         #endregion
 
         #region 私有方法
-        //初始化加载（根UI窗体）Canvas预设
+        // 初始化加载（根UI窗体）Canvas预设
 	    private void InitRootCanvasLoading()
 	    {
 	        CanvasGO = gameMain.resourcesMgr.LoadAsset(Common.SYS_PATH_CANVAS, false);

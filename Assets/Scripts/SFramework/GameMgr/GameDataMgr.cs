@@ -10,7 +10,7 @@ Description:
     补充：存档即将数据保存到GameData，并写入Xml
           读档即将数据读取，检测合法性，赋给GameData和currentPlayer
           TODO: 存档文件的名称,自己定
-                读档数据的更新，自行填写
+                读档存档数据的更新，自行填写
 History:
 ----------------------------------------------------------------------------*/
 
@@ -111,10 +111,10 @@ namespace SFramework
                 string dataString = xmlSaver.LoadXML(gameDataFile);
                 GameData gameDataFromXML = xmlSaver.DeserializeObject(dataString, typeof(GameData)) as GameData;
 
-                //是合法存档
+                // 是合法存档
                 if (gameDataFromXML!=null && gameDataFromXML.key == SystemInfo.deviceUniqueIdentifier)
                 {
-                    //将存档赋给当前实例
+                    // 将存档赋给当前实例
                     Debug.Log("已读取存档");
                     gameData = gameDataFromXML;
                 }
@@ -184,12 +184,14 @@ namespace SFramework
             currentPlayer.Name = gameData.Name;
             currentPlayer.Rank = gameData.Rank;
             currentPlayer.Gold = gameData.Gold;
+            currentPlayer.MaxHP = gameData.MaxHP;
+            currentPlayer.CurrentHP = currentPlayer.MaxHP;
             currentPlayer.CanAttack = gameData.CanAttack;
             // 引用类型
-            currentPlayer.Fit = gameData.Fit;
+            currentPlayer.Fits = gameData.Fit;
             currentPlayer.PropNum = gameData.PropNum;
             currentPlayer.TasksData = gameData.TasksData;
-            currentPlayer.PlayerMedi.FitEquip();
+            currentPlayer.PlayerMedi.UpdateEquipFromFits();
         }
     }
 }

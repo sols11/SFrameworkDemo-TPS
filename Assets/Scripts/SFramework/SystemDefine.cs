@@ -57,20 +57,20 @@ namespace SFramework
     /// </summary>
     public enum FitType
     {
-        Prop = -1, // 非药物的道具，不可装备
-        Cloth = 0,
-        Cestus = 1,
-        Weapon = 2,
-        Decoration = 3,
-        Pants = 4,
-        Shoe = 5,
+        Prop = -1,      // 非药物的道具，不可装备
+        Cloth = 0,      // 衣服
+        Cestus = 1,     // 手套
+        Weapon = 2,     // 武器
+        Decoration = 3, // 装饰
+        Pants = 4,      // 裤子
+        Shoe = 5,       // 鞋子
     }
 
     public enum PropType
     {
-        Medicine=0,
-        Material=1,
-        Event=2
+        Medicine = 0,
+        Material = 1,
+        Event = 2
     }
 
     /// <summary>

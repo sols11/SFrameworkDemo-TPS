@@ -7,7 +7,7 @@ Description:
     简介：存档包含的数据（包括游戏存档和设置存档）
     作用：持久化数据
     使用：根据自己需要保存的数据来编写
-    补充：
+    补充：在这里设置默认存档
 History:
 ----------------------------------------------------------------------------*/
 
@@ -30,6 +30,7 @@ namespace SFramework
         public string Name { get; set; }
         public int Rank { get; set; }
         public int Gold { get; set; }
+        public int MaxHP { get; set; }
         // 技能开关
         public bool CanAttack { get; set; }
         // 装备和道具
@@ -40,17 +41,17 @@ namespace SFramework
 
         public GameData()
         {
-            //构造函数，设置默认存档
-            key = SystemInfo.deviceUniqueIdentifier;    //设定密钥，根据具体平台设定// 
+            // 构造函数，设置默认存档
+            key = SystemInfo.deviceUniqueIdentifier;    // 设定密钥，根据具体平台设定
             // Player
             Name = "我";
             Rank = 1;
             Gold = 100;
-
+            MaxHP = 100;
             CanAttack = true;
             // 初始装备
             Fit = new IEquip[6];
-            Fit[(int)FitType.Weapon] = UnityHelper.FindDic(GameMainProgram.Instance.dataBaseMgr.equipDict, "太刀");
+            Fit[(int)FitType.Weapon] = UnityHelper.FindDic(GameMainProgram.Instance.dataBaseMgr.equipDict, "步枪");
             // 初始背包，1~31值为-1
             PropNum = new int[32];
             for (int i = 1; i < 32; i++)

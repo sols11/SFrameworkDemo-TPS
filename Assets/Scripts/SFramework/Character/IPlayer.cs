@@ -33,7 +33,7 @@ namespace SFramework
         public int Gold { get; set; }
         public bool CanAttack { get; set; }
         // 装备和道具
-        public IEquip[] Fit { get; set; }
+        public IEquip[] Fits { get; set; }
         public int[] PropNum { get; set; }
         // 任务数据
         public List<TaskData> TasksData { get; set; }

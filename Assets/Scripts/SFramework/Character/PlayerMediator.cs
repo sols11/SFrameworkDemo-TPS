@@ -61,9 +61,35 @@ namespace SFramework
         /// 用于从装备更新角色和武器属性
         /// </summary>
         /// <param name="equip"></param>
-        public void FitEquip()
+        public void UpdateEquipFromFits()
         {
-            UpdatePlayerWeapon(PlayerWeapon);
+            for (int i = 0; i < Player.Fits.Length; i++)
+            {
+                if (Player.Fits[i] != null)
+                    Equip(Player.Fits[i]);
+            }
+        }
+
+        /// <summary>
+        /// 穿上装备
+        /// </summary>
+        /// <param name="equip"></param>
+        private void Equip(IEquip equip)
+        {
+            Player.MaxHP += equip.HP;
+            Player.MaxSP += equip.SP;
+            PlayerWeapon.BasicAttack += equip.Attack;
+        }
+
+        /// <summary>
+        /// 卸下装备
+        /// </summary>
+        /// <param name="equip"></param>
+        private void UnEquip(IEquip equip)
+        {
+            Player.MaxHP -= equip.HP;
+            Player.MaxSP -= equip.SP;
+            PlayerWeapon.BasicAttack -= equip.Attack;
         }
 
         /// <summary>
