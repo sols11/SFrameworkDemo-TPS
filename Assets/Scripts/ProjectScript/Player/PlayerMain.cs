@@ -221,6 +221,7 @@ namespace ProjectScript
         private void ShootFire()
         {
             PlayerMedi.PlayerWeapon.Attack();
+
         }
 
         public override void Hurt(PlayerHurtAttr playerHurtAttr)

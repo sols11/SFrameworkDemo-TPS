@@ -13,6 +13,12 @@ namespace ProjectScript
 
         public override void Attack()
         {
+            // 子弹数计算
+            if (CurrentBulletCount <= 0)
+                return;
+            --CurrentBulletCount;
+            GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BulletCount);
+
             // 特效
             muzzleFlashEffect.SetActive(true);
             resourcesMgr.LoadAsset(shootEffect, true, bulletPosition.position, Quaternion.identity);
