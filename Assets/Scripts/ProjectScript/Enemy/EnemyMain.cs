@@ -32,7 +32,6 @@ namespace ProjectScript
             EnemyMedi.Equip(GameMainProgram.Instance.dataBaseMgr.enemyEquipDict["步枪"]);
             EnemyMedi.Equip(GameMainProgram.Instance.dataBaseMgr.enemyEquipDict["防具"]);
             CurrentHP = MaxHP;
-            Debug.Log(MaxHP);
         }
 
         public override void Release()

@@ -26,6 +26,9 @@ namespace SFramework
     {
         // 展示属性
         public FitType Type { get; set; }     // 装备类型
+        // 枪械
+        public int TotalBulletCount { get; set; }   // 需要大于CilpBulletCount
+        public int CilpBulletCount { get; set; }
 
         public IEquip() : base()
         {

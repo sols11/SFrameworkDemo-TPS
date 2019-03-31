@@ -9,8 +9,8 @@ namespace ProjectScript
     public class UIBulletIndicators : ViewBase
     {
         public Text currentBulletCount;
-        public Text totalBulletCount;
-        public Text secondaryFireTotalBulletCount;
+        public Text remainingBulletCount;
+        public Text clipBulletCount;
         public Image weaponImage;
         private IPlayerWeapon playerWeapon;
 
@@ -22,18 +22,25 @@ namespace ProjectScript
             base.UIForm_LucencyType = UIFormLucenyType.Lucency;
             // 观察者注册
             playerWeapon = GameMainProgram.Instance.playerMgr.CurrentPlayer.PlayerMedi.PlayerWeapon;
-            GameMainProgram.Instance.eventMgr.StartListening(EventName.MedicineNum, this.UpdateUI);
-            UpdateUI(); // 进行初始化
+            currentBulletCount.text = playerWeapon.CurrentBulletCount.ToString();
+            remainingBulletCount.text = playerWeapon.RemainingBulletCount.ToString();
+            clipBulletCount.text = playerWeapon.CilpBulletCount.ToString();
+
+            // 进行初始化
+            GameMainProgram.Instance.eventMgr.StartListening(EventName.BulletCount, this.UpdateUI);
+            UpdateUI(); 
         }
 
         void OnDestroy()
         {
-            GameMainProgram.Instance.eventMgr.StopListening(EventName.PlayerHP_SP, this.UpdateUI);
+            GameMainProgram.Instance.eventMgr.StopListening(EventName.BulletCount, this.UpdateUI);
         }
 
         public override void UpdateUI()
         {
-
+            currentBulletCount.text = playerWeapon.CurrentBulletCount.ToString();
+            remainingBulletCount.text = playerWeapon.RemainingBulletCount.ToString();
+            clipBulletCount.text = playerWeapon.CilpBulletCount.ToString();
         }
     }
 }

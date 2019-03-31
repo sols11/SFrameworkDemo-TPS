@@ -99,7 +99,7 @@ namespace SFramework
     {
         PlayerHP_SP = 0,
         PlayerDead = 1,
-        MedicineNum = 2,
+        BulletCount = 2,
         BossDead = 3,
         DialogComplete=4,
     }

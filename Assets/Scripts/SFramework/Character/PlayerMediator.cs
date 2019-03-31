@@ -78,6 +78,13 @@ namespace SFramework
             Player.MaxHP += equip.HP;
             Player.MaxSP += equip.SP;
             PlayerWeapon.BasicAttack += equip.Attack;
+            if (equip.Type == FitType.Weapon)
+            {
+                PlayerWeapon.CilpBulletCount = equip.CilpBulletCount;
+                PlayerWeapon.CurrentBulletCount = equip.CilpBulletCount;
+                PlayerWeapon.RemainingBulletCount = equip.TotalBulletCount - equip.CilpBulletCount;
+                Debug.Log(PlayerWeapon.CurrentBulletCount);
+            }
         }
 
         /// <summary>

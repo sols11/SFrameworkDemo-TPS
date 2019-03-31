@@ -33,6 +33,10 @@ namespace SFramework
 
         public int BasicAttack { get; set; }
         public int Crit { get; set; }
+        public int CurrentBulletCount { get; set; }
+        public int RemainingBulletCount { get; set; }
+        public int CilpBulletCount { get; set; }
+
         //武器战斗系统所需属性
         public float AttackFactor { get { return m_AttackFactor; } set { m_AttackFactor = value; } }
         public float VelocityForward { get { return m_VelocityForward; } set { m_VelocityForward = value; } }

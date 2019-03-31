@@ -1,6 +1,8 @@
 ﻿{
     "步枪": {
         "Type": 2,
+		"TotalBulletCount": 60,
+		"CilpBulletCount": 20,
         "IconPath": "Icons\\Weapon\\Katana",
         "Name": "步枪",
         "Detail": "",
@@ -16,6 +18,8 @@
     },
     "防具": {
         "Type": 1,
+		"TotalBulletCount": 0,
+		"CilpBulletCount": 0,
         "IconPath": "Icons\\Cloth\\Cloth",
         "Name": "防具",
         "Detail": "",
