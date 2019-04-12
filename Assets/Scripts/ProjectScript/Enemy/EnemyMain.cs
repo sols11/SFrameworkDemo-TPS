@@ -61,6 +61,7 @@ namespace ProjectScript
         {
             base.Dead();
             animator.SetTrigger(animDead);
+            GameObjectInScene.layer = (int)ObjectLayer.Without;
             // GameObjectInScene.GetComponent<Collider>().enabled = false;
             GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BossDead);
             GameObject.Destroy(GameObjectInScene, 10);

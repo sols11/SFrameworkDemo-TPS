@@ -14,6 +14,7 @@ namespace ProjectScript
         private string shellEffect = @"Particles\EmptyShell";
         private string holeEffect = @"Particles\StoneBulletHole";
         private string hitEffect = @"Particles\StoneHitFx";
+        private string bloodEffect = @"Particles\Blood";
         private Vector3 emptyShellMinForce = new Vector3(0.8f, -0.5f, 0.2f);
         private Vector3 emptyShellMaxForce = new Vector3(-1.2f, 0.8f, 0.4f);
 
@@ -47,6 +48,7 @@ namespace ProjectScript
                     EnemyHurtAttribute.ModifyAttr((int)RealAttack, VelocityForward, VelocityVertical, TransformForward);
                     EnemyReturn = hit.transform.GetComponent<IEnemyMono>().Hurt(EnemyHurtAttribute);
                     // 特效
+                    resourcesMgr.LoadAsset(bloodEffect, true, hit.point + (hit.normal * .04f), Quaternion.LookRotation(hit.normal));
                 }
                 else  // 打在物体上
                 {
