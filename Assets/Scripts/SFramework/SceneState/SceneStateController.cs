@@ -28,6 +28,7 @@ namespace SFramework
     public enum SceneState
     {
         StartScene,
+        LoginScene,
     }
 
 
@@ -77,6 +78,9 @@ namespace SFramework
             {
                 case SceneState.StartScene:
                     state = new StartScene(this);
+                    break;
+                case SceneState.LoginScene:
+                    state = new ProjectScript.LoginScene(this);
                     break;
                 default:
                     return;

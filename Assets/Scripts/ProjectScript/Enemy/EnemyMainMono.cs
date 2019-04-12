@@ -21,7 +21,7 @@ namespace ProjectScript
     public class EnemyMainMono : IEnemyMono
     {
         private EnemyMain enemyMain;
-
+        
         public override void Initialize()
         {
             base.Initialize();
