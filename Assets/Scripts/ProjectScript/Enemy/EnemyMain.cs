@@ -63,6 +63,7 @@ namespace ProjectScript
             animator.SetTrigger(animDead);
             // GameObjectInScene.GetComponent<Collider>().enabled = false;
             GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BossDead);
+            GameObject.Destroy(GameObjectInScene, 10);
         }
 
     }

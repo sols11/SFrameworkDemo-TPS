@@ -12,6 +12,8 @@ namespace ProjectScript
         public GameObject muzzleFlashEffect;
         private string shootEffect = @"Particles\BulletTrail";
         private string shellEffect = @"Particles\EmptyShell";
+        private string holeEffect = @"Particles\StoneBulletHole";
+        private string hitEffect = @"Particles\StoneHitFx";
         private Vector3 emptyShellMinForce = new Vector3(0.8f, -0.5f, 0.2f);
         private Vector3 emptyShellMaxForce = new Vector3(-1.2f, 0.8f, 0.4f);
 
@@ -45,6 +47,11 @@ namespace ProjectScript
                     EnemyHurtAttribute.ModifyAttr((int)RealAttack, VelocityForward, VelocityVertical, TransformForward);
                     EnemyReturn = hit.transform.GetComponent<IEnemyMono>().Hurt(EnemyHurtAttribute);
                     // 特效
+                }
+                else  // 打在物体上
+                {
+                    resourcesMgr.LoadAsset(holeEffect, true, hit.point + (hit.normal * .04f), Quaternion.LookRotation(hit.normal) * Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360))));
+                    resourcesMgr.LoadAsset(hitEffect, true, hit.point + (hit.normal * .07f), Quaternion.LookRotation(hit.normal) * Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360))));
                 }
             }
         }  // end_function
