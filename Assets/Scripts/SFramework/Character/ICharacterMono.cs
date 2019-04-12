@@ -4,8 +4,8 @@ Author:
 Date:
     2017/08/01
 Description:
-    简介：游戏角色的基类，角色包括Player, Enemy, NPC等
-    作用：提供一个角色模板，具备基本的属性和逻辑
+    简介：游戏角色的Mono基类，角色包括Player, Enemy, NPC等
+    作用：ICharacterMono负责挂载到场景中角色的GameObject上，记录相关数据，执行和Monobehavior相关的操作。
     使用：继承
     补充：TODO:包含默认的基本属性，可根据需要修改。如果是2D游戏，Rigidbody需要改为Rigidbody2D
 History:

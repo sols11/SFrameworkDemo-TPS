@@ -5,7 +5,7 @@ Date:
     2017/08/01
 Description:
     简介：相机控制系统
-    作用：
+    作用：控制游戏中的相机
     使用：我们为Camera制定了一个Prefab，默认是4层结构。
             顶层root结点一般是和transform同步的跟随结点，这个transform会根据具体情况计算出来
                 根据不同项目的实现，可能会挂载AutoCam，FreeLookCam等具体的相机脚本

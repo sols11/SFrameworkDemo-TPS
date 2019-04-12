@@ -4,10 +4,10 @@ Author:
 Date:
     2017/08/01
 Description:
-    简介：
-    作用：
-    使用：
-    补充：
+    简介：Player的MonoBehaviour脚本，用于武器碰撞检测和动画事件等Mono相关的功能。
+    作用：挂载到Player的GameObject上以控制游戏对象
+    使用：继承并添加代码。
+    补充：由PlayerMediator初始化，不使用Mono生命周期
 History:
 ----------------------------------------------------------------------------*/
 
@@ -18,11 +18,7 @@ using UnityEngine;
 namespace SFramework
 {
     /// <summary>
-    ///+ iPlayerWeapon 预制属性，进行初始化
-    ///+ PlayerMediator
-    ///+ 动画事件
-    ///由PlayerMediator初始化，不使用Mono生命周期
-    ///Player的MonoBehaviour脚本，用于武器碰撞检测和动画事件
+    /// 
     /// </summary>
     public abstract class IPlayerMono : ICharacterMono
 	{

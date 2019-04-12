@@ -5,7 +5,7 @@ Date:
     2017/08/01
 Description:
     简介：实现异步加载的UI进度条
-    作用：Loading场景作为异步的中转站
+    作用：该UI默认被设置在Loading场景下，Loading场景会作为异步加载场景时的中转站
     使用：
     补充：
 History:

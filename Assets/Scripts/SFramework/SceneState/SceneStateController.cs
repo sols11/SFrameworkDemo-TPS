@@ -6,8 +6,8 @@ Date:
 Description:
     简介：状态机类
     作用：控制场景的切换，包括异步加载和同步加载两种方式，还包括退出游戏功能。
-    使用：对当前场景状态执行场景初始化、更新、释放。枚举SceneState并在SetState时用switch语句加载相应的场景
-    补充：
+    使用：对当前场景状态执行场景初始化、更新、释放。调用SetState即可切换场景。
+    补充：每添加一个SceneState，都需要修改SceneState枚举和SetState方法的switch-case，一个场景可以对应多个SceneState
 History:
     2019/03/07 简化了场景的加载和存放方式
     2019/03/15 之前的想法太天真，revert回来了，还是要支持inspector下用enum调试，所以不能用泛型方法

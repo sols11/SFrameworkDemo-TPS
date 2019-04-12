@@ -5,8 +5,8 @@ Date:
     2017/08/01
 Description:
     简介：玩家角色的基类，玩家所拥有的各种存储信息
-    作用：
-    使用：
+    作用：存放了各类角色控制数据。在IPlayer类中，CurrentHP、CurrentSP属性的变动会触发UpdateHP_SP事件，从而影响到UI层的表现。
+    使用：继承并使用控制数据编写实质的角色控制代码。
     补充：
 History:
     2019/03/12 添加了PlayerMediator等属性

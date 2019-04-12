@@ -4,11 +4,11 @@ Author:
 Date:
     2017/08/01
 Description:
-    简介：UI管理器
+    简介：UI管理器，管理游戏中的所有UI窗体，智能控制各UI的层级，生命周期，实现栈存储
     作用：整个UI框架的核心，用户程序通过本脚本，来实现框架绝大多数的功能实现。
     使用：我们提供了一个默认的Canvas，放在Resources文件夹下，Canvas下的UI会分别保存在Normal, Fixed, Popup层级下。
-           1.将你所需要显示的UI保存为Prefab，将其路径加入UIManager字典集中管理
-           2.创建UI脚本，继承ViewBase，使用SFramework命名空间，放在项目命名空间下，设置
+           1.将你所需要显示的UI保存为Prefab，将其路径加入UIManager字典集中管理（现已支持智能自动读取UI文件路径，直接将UI的Prefab存放到Resources\UI文件夹下即可）
+           2.创建UI脚本，继承ViewBase，使用SFramework命名空间，放在项目命名空间下，设置具体的UI行为
            3.写好button等的事件，调用UIManager的方法ShowUIForms和CloseUIForms来开关UI
            4.这样每次只需要在当前UI脚本中写好要调用的方法和UI名称，而不用管UI对象是什么类型，就可以实现UI切换了（底层由UIManager自动管理）
     补充：

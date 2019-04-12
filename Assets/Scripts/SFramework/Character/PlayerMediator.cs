@@ -5,7 +5,7 @@ Date:
     2017/08/01
 Description:
     简介：中介者模式
-    作用：
+    作用：负责更换装备
     使用：
     补充：
 History:
@@ -19,7 +19,6 @@ namespace SFramework
 {
     /// <summary>
     /// IPlayer,IPlayerMono,IPlayerWeapon3个关联类的中介者
-    /// 负责更换装备
     /// </summary>
     public class PlayerMediator
     {

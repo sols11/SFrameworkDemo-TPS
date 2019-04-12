@@ -35,16 +35,21 @@ namespace ProjectScript
         // Fields
         private float moveSpeed;
         private float jumpPower = 6;
+        private bool atGround = true;
         private bool isCombatState = true;
         private int currentBullet = 0;
         private float fireRate = 0.5f;
         private float fireTimer = 0;
+        private int groundLayerIndex;
         // Animator States
         private string staCombatMove = "HandgunCombatMove";
         private string staCombatWalk = "handgun_combat_walk";
         private string staCombatRun = "handgun_combat_run";
         private string staCombatShoot = "handgun_combat_shoot";
         private string staCombatRunShoot = "handgun_combat_run_shooting";
+        private string staJumpStart = "handgun_jump_1_start";
+        private string staJumpAir = "handgun_jump_2_air";
+        private string staJumpLand = "handgun_jump_3_land";
         // Parameters
         private string animHurt = "Hurt";
         private string animDead = "Hurt";
@@ -53,6 +58,7 @@ namespace ProjectScript
         private string animSpeedY = "SpeedY";
         private string animJump = "Jump";
         private string animShoot = "Shoot";
+        private string animAtGround = "AtGround";
         // Directions
         private Vector3 targetDirection;        // 输入的方向
         private Vector3 forwardDirection;       // 存储输入后的朝向
@@ -87,7 +93,8 @@ namespace ProjectScript
             }
             else
                 Debug.LogWarning("No Main Camera Found! 将无法朝向相机正向移动");
-            moveSpeed = Speed; 
+            moveSpeed = Speed;
+            groundLayerIndex = LayerMask.GetMask("Ground");
         }
 
         public override void Release()
@@ -97,8 +104,10 @@ namespace ProjectScript
 
         public override void FixedUpdate()
         {
-            // 物理移动和旋转
-            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot))
+            atGround = Physics.Raycast(GameObjectInScene.transform.position, Vector3.down, 0.1f, groundLayerIndex);
+
+            // 物理移动和旋转（设计在落地动画前段不可移动）
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot) || stateInfo.IsName(staJumpStart) || stateInfo.IsName(staJumpAir) || (stateInfo.IsName(staJumpLand) && stateInfo.normalizedTime > 0.8f))
             {
                 if (CanMove)
                     GroundMove();
@@ -110,12 +119,16 @@ namespace ProjectScript
         public override void Update()
         {
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            animator.SetBool(animAtGround, atGround);
             // 关于对话时禁止移动的办法，我们有做过InputMgr来实现，但暂时不添加这个功能
             MoveInput();
             AttackInput();
             BasicInput();
         }
 
+        /// <summary>
+        /// 接受并计算方向移动输入
+        /// </summary>
         private void MoveInput()
         {
             horizontal = Input.GetAxisRaw("Horizontal");
@@ -140,6 +153,13 @@ namespace ProjectScript
                 moveSpeed = 0;
             animator.SetFloat(animSpeedX, horizontal);
             animator.SetFloat(animSpeedY, vertical);
+
+            // 跳跃
+            if (atGround && Input.GetButtonDown("Jump"))
+            {
+                Rgbd.velocity = new Vector3(Rgbd.velocity.x, jumpPower, Rgbd.velocity.z);
+                animator.SetTrigger(animJump);
+            }
         }
 
         /// <summary>
@@ -173,16 +193,9 @@ namespace ProjectScript
         /// <param name="v"></param>
         private void GroundMove()
         {
-            // Speed = 4 村子里移动速度慢
+            // Speed = 4
             if (moveSpeed != 0)
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
-
-            if(Input.GetButtonDown("Jump"))
-            {
-                Rgbd.velocity = new Vector3(Rgbd.velocity.x, jumpPower, Rgbd.velocity.z);
-                animator.SetTrigger(animJump);
-            }
-
         }
 
         private void BasicInput()
@@ -221,7 +234,6 @@ namespace ProjectScript
         private void ShootFire()
         {
             PlayerMedi.PlayerWeapon.Attack();
-
         }
 
         public override void Hurt(PlayerHurtAttr playerHurtAttr)
