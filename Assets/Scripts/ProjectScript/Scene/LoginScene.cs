@@ -30,7 +30,7 @@ namespace ProjectScript
             base.StateBegin();
             // 场景初始化
             //GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
-            GameMainProgram.Instance.uiManager.ShowUIForms("ChatRoom");
+            //GameMainProgram.Instance.uiManager.ShowUIForms("ChatRoom");
             //gameMainProgram.audioMgr.PlayMusic(0);
         }
 

@@ -80,7 +80,7 @@ namespace ProjectScript
         }
 
         /// <summary>
-        /// 接受自服务器
+        /// 接受自服务器。服务器会将其收到的消息发送过来
         /// </summary>
         private void Receive()
         {
@@ -101,6 +101,9 @@ namespace ProjectScript
             }
         }
 
+        /// <summary>
+        /// 将信息发送给Server，然后服务器会转发回来更新UI
+        /// </summary>
         public void OnSendButtonClick()
         {
             string text = inputField.text;
