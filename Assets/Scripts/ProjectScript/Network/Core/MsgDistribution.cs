@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ProjectScript.Network
 {
-    /// 由消息分发系统处理消息
+    /// 由消息分发系统处理消息。处理的是body中name后面的数据，通常是Json字符串
     public class MsgDistribution
     {
         // 每帧处理消息的数量
@@ -17,7 +17,7 @@ namespace ProjectScript.Network
         private Dictionary<string, Delegate> eventDict = new Dictionary<string, Delegate>();
         private Dictionary<string, Delegate> onceDict = new Dictionary<string, Delegate>();
 
-        // Update
+        // Update. Called by Connection
         public void Update()
         {
             for (int i = 0; i < num; i++)

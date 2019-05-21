@@ -100,31 +100,31 @@ namespace ProjectScript.Network
             // 小于长度字节
             if (buffCount < sizeof(Int32))
                 return;
-            // 消息长度
+            // 消息长度（先拿到headpack中的size）
             int end = 0;
             msgLength = Protocol.GetInt(readBuff, 0, ref end);
-            
-            Array.Copy(readBuff, lenBytes, sizeof(Int32));
-            msgLength = BitConverter.ToInt32(lenBytes, 0);
-            if (buffCount < msgLength + sizeof(Int32))
+            if (msgLength <= 0 || buffCount < msgLength + sizeof(Int32))
                 return;
+            // 再拿到body中的name
+            string name = Protocol.GetString(readBuff, end, ref end);
+            if (String.IsNullOrEmpty(name))
+                return;
+
             // 处理消息
-            ProtocolBase protocol = proto.Decode(readBuff, sizeof(Int32), msgLength);
-            Debug.Log("[客户端] 收到消息 " + protocol.GetDesc());
-            lock (msgDist.msgList)
+            Debug.Log("[收到消息] " + name);
+            lock (msgDist.msgList)  // 交给MsgDistribution处理
             {
                 msgDist.msgList.Add(protocol);
             }
             // 清除已处理的消息
-            int count = buffCount - msgLength - sizeof(Int32);
-            Array.Copy(readBuff, sizeof(Int32) + msgLength, readBuff, 0, count);
-            buffCount = count;
+            int remainSize = buffCount - msgLength - sizeof(Int32);
+            Array.Copy(readBuff, sizeof(Int32) + msgLength, readBuff, 0, remainSize);
+            buffCount = remainSize;
             if (buffCount > 0)
             {
                 ProcessData();
             }
         }
-
 
         public bool Send(ProtocolBase protocol)
         {
