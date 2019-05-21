@@ -7,27 +7,44 @@ using LitJson;
 namespace ProjectScript.Network
 {
     /// <summary>
-    /// 一个Size+Name+Json传输协议，是目前使用的协议
+    /// 一个Size+Name+Json传输协议，是目前使用的协议。
+    /// Protocol用于维护Name，JsonStr，Bytes部分，不包含Size。
+    /// Protocol由Connection创建，将body部分内容交给MsgDistribution处理。
     /// </summary>
     public class Protocol
     {
-        // 接受的数据
-        public int size;
+        // 未经处理的bytes字节流
+        public byte[] body;
+        // 接受的数据。TODO：以后换成属性
         public string name;
         public string jsonStr;
-        // 传输的字节流
-        public byte[] bytes;
+
+        public Protocol(byte[] dataBuffer, int startIndex, int size)
+        {
+            // 拷贝body（分片）
+            body = new byte[size];
+            Array.Copy(dataBuffer, startIndex, body, 0, size);
+            // 再拿到body中的name
+            int end = 0;
+            name = GetString(body, 0, ref end);
+            if (String.IsNullOrEmpty(name))
+                return;
+            // 余下部分是JsonStr
+            jsonStr = System.Text.Encoding.UTF8.GetString(body, end, size - end);
+        }
+
+        // 以下是接口方法
 
         // 将bytes中数据提取出来
-        public bool Decode(byte[] dataBuffer)
+        public static bool Decode(byte[] dataBuffer)
         {
             // 先拿到headpack中的size
             int end = 0;
-            size = GetInt(dataBuffer, 0, ref end);
+            int size = GetInt(dataBuffer, 0, ref end);
             if (size <= 0)
                 return false;
             // 再拿到body中的name
-            name = GetString(dataBuffer, end, ref end);
+            string name = GetString(dataBuffer, end, ref end);
             if (String.IsNullOrEmpty(name))
                 return false;
             string jsonStr = System.Text.Encoding.UTF8.GetString(dataBuffer, end, size);
@@ -36,7 +53,7 @@ namespace ProjectScript.Network
         }
 
         // 将数据打包
-        public bool Encode(string name, byte[] dataBuffer)
+        public static bool Encode(string name, byte[] dataBuffer)
         {
             if (String.IsNullOrEmpty(name))
                 return false;

@@ -105,14 +105,10 @@ namespace ProjectScript.Network
             msgLength = Protocol.GetInt(readBuff, 0, ref end);
             if (msgLength <= 0 || buffCount < msgLength + sizeof(Int32))
                 return;
-            // 再拿到body中的name
-            string name = Protocol.GetString(readBuff, end, ref end);
-            if (String.IsNullOrEmpty(name))
-                return;
-
-            // 处理消息
-            Debug.Log("[收到消息] " + name);
-            lock (msgDist.msgList)  // 交给MsgDistribution处理
+            // 创建Protocol，并存放body内容
+            Protocol protocol = new Protocol(readBuff, end, msgLength);
+            // 处理消息（交给MsgDistribution处理）
+            lock (msgDist.msgList)
             {
                 msgDist.msgList.Add(protocol);
             }

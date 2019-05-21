@@ -4,15 +4,18 @@ using System.Collections.Generic;
 
 namespace ProjectScript.Network
 {
-    /// 由消息分发系统处理消息。处理的是body中name后面的数据，通常是Json字符串
+    /// <summary>
+    /// 由消息分发系统处理消息。处理的是body中name后面的数据，通常是Json字符串。
+    /// 事件需要自行添加和移除
+    /// </summary>
     public class MsgDistribution
     {
         // 每帧处理消息的数量
         public int num = 15;
         // 消息列表
-        public List<ProtocolBase> msgList = new List<ProtocolBase>();
+        public List<Protocol> msgList = new List<Protocol>();
         // 委托类型
-        public delegate void Delegate(ProtocolBase proto);
+        public delegate void Delegate(Protocol proto);
         // 事件监听表
         private Dictionary<string, Delegate> eventDict = new Dictionary<string, Delegate>();
         private Dictionary<string, Delegate> onceDict = new Dictionary<string, Delegate>();
@@ -36,10 +39,10 @@ namespace ProjectScript.Network
         }
 
         // 消息分发
-        public void DispatchMsgEvent(ProtocolBase protocol)
+        public void DispatchMsgEvent(Protocol protocol)
         {
-            string name = protocol.GetName();
-            Debug.Log("分发处理消息 " + name);
+            string name = protocol.name;
+            Debug.Log("[收到事件消息] " + name);
             if (eventDict.ContainsKey(name))
             {
                 eventDict[name](protocol);
