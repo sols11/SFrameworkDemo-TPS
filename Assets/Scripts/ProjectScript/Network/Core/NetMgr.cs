@@ -21,17 +21,8 @@ namespace ProjectScript.Network
 
         public static void ConnectServ()
         {
-            srvConn.proto = new ProtocolBytes();
             srvConn.Connect(host, port);
         }
 
-        // 心跳
-        public static ProtocolBase GetHeatBeatProtocol()
-        {
-            // 具体的发送内容根据服务端设定改动
-            ProtocolBytes protocol = new ProtocolBytes();
-            protocol.AddString("HeatBeat");
-            return protocol;
-        }
     }
 }

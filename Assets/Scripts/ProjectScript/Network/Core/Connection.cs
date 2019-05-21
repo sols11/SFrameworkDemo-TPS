@@ -122,35 +122,34 @@ namespace ProjectScript.Network
             }
         }
 
-        public bool Send(ProtocolBase protocol)
+        // 原先是发送Protocol，我们改成直接发byte[]
+        public bool Send(string name, byte[] body = null)
         {
             if (status != Status.Connected)
             {
-                Debug.LogError("[Connection]还没链接就发送数据是不好的");
-                return true;
+                Debug.LogError("[Connection] 发送消息前需要先连接");
+                return false;
             }
-
-            byte[] b = protocol.Encode();
-            byte[] length = BitConverter.GetBytes(b.Length);
-
-            byte[] sendbuff = length.Concat(b).ToArray();
-            socket.Send(sendbuff);
-            Debug.Log("发送消息 " + protocol.GetDesc());
+            Protocol.Encode(name, body);
+            socket.Send(body);
+            Debug.Log("[客户端] 发送消息 " + name);
             return true;
         }
 
-        public bool Send(ProtocolBase protocol, string cbName, MsgDistribution.Delegate cb)
+        // 发送消息的同时绑定回调函数，并指定key名
+        public bool Send(string name, byte[] body, string cbName, MsgDistribution.Delegate cb)
         {
-            if (status != Status.Connected)
+            if (!Send(name, body))
                 return false;
             msgDist.AddOnceListener(cbName, cb);
-            return Send(protocol);
+            return true;
         }
 
-        public bool Send(ProtocolBase protocol, MsgDistribution.Delegate cb)
+        // 发送消息的同时绑定回调函数，使用Msg+name作为key名
+        public bool Send(string name, byte[] body, MsgDistribution.Delegate cb)
         {
-            string cbName = protocol.GetName();
-            return Send(protocol, cbName, cb);
+            string cbName = "Msg" + name;
+            return Send(name, body, cbName, cb);
         }
 
         public void Update()
@@ -162,8 +161,7 @@ namespace ProjectScript.Network
             {
                 if (Time.time - lastTickTime > heartBeatTime)
                 {
-                    ProtocolBase protocol = NetMgr.GetHeatBeatProtocol();
-                    Send(protocol);
+                    Send("HeartBeat");
                     lastTickTime = Time.time;
                 }
             }

@@ -212,7 +212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1278715087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +390,10 @@ PrefabInstance:
     - target: {fileID: 165002, guid: b4a5077ca40ef81489a20118fee95655, type: 3}
       propertyPath: m_Name
       value: Login
+      objectReference: {fileID: 0}
+    - target: {fileID: 165002, guid: b4a5077ca40ef81489a20118fee95655, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22471254, guid: b4a5077ca40ef81489a20118fee95655, type: 3}
       propertyPath: m_LocalPosition.x

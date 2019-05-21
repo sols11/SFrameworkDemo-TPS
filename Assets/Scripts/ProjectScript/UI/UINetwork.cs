@@ -60,79 +60,17 @@ namespace ProjectScript
             PanelLogin.SetActive(true);
             PanelLink.SetActive(false);
             //Recv
-            socket.BeginReceive(readBuff, 0, BUFFER_SIZE, SocketFlags.None, ReceiveCb, null);
         }
 
-        // 接收回调
-        private void ReceiveCb(IAsyncResult ar)
+        private void OnLoginButton()
         {
-            try
-            {
-                // count是接收数据的大小
-                int count = socket.EndReceive(ar);
-                // 数据处理
-                buffCount += count;
-                ProcessData();
-                // 继续接收	
-                socket.BeginReceive(readBuff, 0, BUFFER_SIZE, SocketFlags.None, ReceiveCb, null);
-            }
-            catch (Exception e)
-            {
-                socket.Close();
-                //ClientInfo.text += "链接已断开";
-            }
+
         }
 
-        /// <summary>
-        /// 处理信息
-        /// </summary>
-        private void ProcessData()
+        private void OnSendButton()
         {
-            // 小于长度字节
-            if (buffCount < sizeof(Int32))
-                return;
-            // 消息长度
-            Array.Copy(readBuff, lenBytes, sizeof(Int32));
-            msgLength = BitConverter.ToInt32(lenBytes, 0);
-            if (buffCount < msgLength + sizeof(Int32))
-                return;
-            // 处理消息
-            ProtocolBase protocol = proto.Decode(readBuff, sizeof(Int32), msgLength);
-            HandleMsg(protocol);
-            // 清除已处理的消息
-            int count = buffCount - msgLength - sizeof(Int32);
-            Array.Copy(readBuff, msgLength, readBuff, 0, count);
-            buffCount = count;
-            if (buffCount > 0)
-            {
-                ProcessData();
-            }
-        }
 
-        private void HandleMsg(ProtocolBase protoBase)
-        {
-            ProtocolBytes proto = (ProtocolBytes)protoBase;
-            //获取数值
-            int start = 0;
-            string protoName = proto.GetString(start, ref start);
-            int ret = proto.GetInt(start, ref start);
-            //显示
-            Debug.Log("接收 " + proto.GetDesc());
-            //ClientInfo.text = "接收 " + proto.GetName() + " " + ret.ToString();
         }
-
-        /// <summary>
-        /// 根据协议发送
-        /// </summary>
-        /// <param name="protocol"></param>
-        public void Send(ProtocolBase protocol)
-        {
-            byte[] bytes = protocol.Encode();
-            byte[] length = BitConverter.GetBytes(bytes.Length);
-            byte[] sendbuff = length.Concat(bytes).ToArray();
-            socket.Send(sendbuff);
-        }
-
 
     }
 }

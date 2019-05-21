@@ -43,7 +43,7 @@ namespace ProjectScript
             protocol.AddString(idInput.text);
             protocol.AddString(pwInput.text);
             Debug.Log("发送 " + protocol.GetDesc());
-            NetMgr.srvConn.Send(protocol, OnRegBack);
+            //NetMgr.srvConn.Send(protocol, OnRegBack);
         }
 
         public void OnRegBack(ProtocolBase protocol)

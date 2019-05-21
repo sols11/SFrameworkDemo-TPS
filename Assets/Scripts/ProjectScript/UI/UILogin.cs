@@ -50,7 +50,7 @@ namespace ProjectScript
             protocol.AddString(idInput.text);
             protocol.AddString(pwInput.text);
             Debug.Log("发送 " + protocol.GetDesc());
-            NetMgr.srvConn.Send(protocol, OnLoginBack);
+            //NetMgr.srvConn.Send(protocol, OnLoginBack);
         }
 
         // 登录完毕回调

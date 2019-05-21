@@ -35,7 +35,7 @@ namespace ProjectScript.Network
 
         // 以下是接口方法
 
-        // 将bytes中数据提取出来
+        // 将bytes中数据提取出来（用于Recv)
         public static bool Decode(byte[] dataBuffer)
         {
             // 先拿到headpack中的size
@@ -52,7 +52,16 @@ namespace ProjectScript.Network
             return true;
         }
 
-        // 将数据打包
+        // 将数据打包（用于Send)，返回打包结果，失败返回null
+        public static byte[] Encode(string name, string jsonStr)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonStr);
+            if (Encode(name, bytes))
+                return bytes;
+            return null;
+        }
+
+        // 将数据打包（用于Send)，返回是否成功，打包的结果存在dataBuffer
         public static bool Encode(string name, byte[] dataBuffer)
         {
             if (String.IsNullOrEmpty(name))
@@ -60,7 +69,10 @@ namespace ProjectScript.Network
             Int32 len = name.Length;
             byte[] lenBytes = BitConverter.GetBytes(len);
             byte[] strBytes = System.Text.Encoding.UTF8.GetBytes(name);
-            dataBuffer = lenBytes.Concat(strBytes).Concat(dataBuffer).ToArray();
+            if(dataBuffer == null)
+                dataBuffer = lenBytes.Concat(strBytes).ToArray();
+            else
+                dataBuffer = lenBytes.Concat(strBytes).Concat(dataBuffer).ToArray();
             Int32 size = dataBuffer.Length;
             byte[] sizeBytes = BitConverter.GetBytes(size);
             dataBuffer = sizeBytes.Concat(dataBuffer).ToArray();
