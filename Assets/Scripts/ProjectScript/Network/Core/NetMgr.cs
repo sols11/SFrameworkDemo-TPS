@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ProjectScript.Network
 {
     /// <summary>
-    /// 网络管理。维护Connection连接
+    /// 网络管理。维护Connection连接，封装Connection接口
     /// </summary>
     public class NetMgr
     {
         public static Connection srvConn = new Connection();
         //public static Connection platformConn = new Connection();
-
-        private static string host = "127.0.0.1";
-        private static int    port = 8888;
 
         public static void Update()
         {
@@ -21,10 +19,10 @@ namespace ProjectScript.Network
             //platformConn.Update();
         }
 
-        public static void ConnectServ()
+        // 判定安全字符串（不得包含不安全符号）
+        public static bool IsSafeStr(string str)
         {
-            srvConn.Connect(host, port);
+            return !Regex.IsMatch(str, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
         }
-
     }
 }

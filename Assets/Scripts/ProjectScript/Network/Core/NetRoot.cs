@@ -11,7 +11,6 @@ namespace ProjectScript.Network
         void Start()
         {
             Application.runInBackground = true;
-            NetMgr.ConnectServ();
         }
 
         void Update()

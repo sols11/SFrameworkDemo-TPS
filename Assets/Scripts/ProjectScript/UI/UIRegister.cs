@@ -35,7 +35,7 @@ namespace ProjectScript
 
             if (NetMgr.srvConn.status != Connection.Status.Connected)
             {
-                NetMgr.ConnectServ();
+                //NetMgr.ConnectServ();
             }
             // 发送
             ProtocolBytes protocol = new ProtocolBytes();

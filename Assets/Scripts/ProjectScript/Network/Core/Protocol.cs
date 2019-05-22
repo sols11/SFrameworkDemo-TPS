@@ -54,13 +54,6 @@ namespace ProjectScript.Network
             return true;
         }
 
-        // 将数据打包（用于Send)，返回打包结果，失败返回null
-        public static byte[] Encode(string name, string jsonStr)
-        {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonStr);
-            return Encode(name, bytes);
-        }
-
         // 将数据打包（用于Send)，返回打包结果，会修改dataBuffer，失败返回null
         public static byte[] Encode(string name, byte[] dataBuffer)
         {

@@ -56,7 +56,7 @@ namespace ProjectScript.Network
             }
             catch (Exception e)
             {
-                Debug.Log("[客户端] 连接服务器失败:" + e.Message);
+                Debug.LogError("[客户端] 连接服务器失败:" + e.Message);
                 return false;
             }
         }
@@ -132,7 +132,7 @@ namespace ProjectScript.Network
         }
 
         // 原先是发送Protocol，我们改成直接发byte[]，该接口会修改body数据
-        public bool Send(string name, byte[] body)
+        public bool Send(string name, byte[] body = null)
         {
             if (status != Status.Connected)
             {
@@ -145,6 +145,12 @@ namespace ProjectScript.Network
             socket.Send(body);
             Debug.Log("[客户端] 发送消息 " + name);
             return true;
+        }
+
+        public bool Send(string name, string str)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
+            return Send(name, bytes);
         }
 
         // 发送消息的同时绑定回调函数，并指定key名
@@ -173,10 +179,16 @@ namespace ProjectScript.Network
             {
                 if (Time.time - lastTickTime > heartBeatTime)
                 {
-                    Send("HeartBeat", null);
+                    Send("HeartBeat");
                     lastTickTime = Time.time;
                 }
             }
+        }
+
+        // 显示地址和端口信息
+        public override string ToString()
+        {
+            return socket.LocalEndPoint.ToString();
         }
     }
 }
