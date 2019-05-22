@@ -14,7 +14,7 @@ namespace ProjectScript.Network
         public int num = 15;
         // 消息列表
         public List<Protocol> msgList = new List<Protocol>();
-        // 委托类型
+        // 委托类型（方法签名要一致）
         public delegate void Delegate(Protocol proto);
         // 事件监听表
         private Dictionary<string, Delegate> eventDict = new Dictionary<string, Delegate>();

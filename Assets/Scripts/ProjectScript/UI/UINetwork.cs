@@ -61,8 +61,11 @@ namespace ProjectScript
             panelLink.SetActive(false);
         }
 
+        // 客户端主动断开连接
         private void OnDisconnectButton()
         {
+            NetMgr.srvConn.Send("Disconnect");
+            Debug.Log("[客户端] 断开连接");
             NetMgr.srvConn.Close();
         }
 

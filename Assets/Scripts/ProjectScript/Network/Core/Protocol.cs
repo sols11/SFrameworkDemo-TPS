@@ -28,7 +28,6 @@ namespace ProjectScript.Network
             // 再拿到body中的name
             int end = 0;
             name = GetString(body, 0, ref end);
-            UnityEngine.Debug.Log("Protocol消息" + name);
             if (String.IsNullOrEmpty(name))
                 return;
             // 余下部分是JsonStr

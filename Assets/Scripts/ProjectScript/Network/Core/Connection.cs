@@ -37,6 +37,13 @@ namespace ProjectScript.Network
         };
         public Status status = Status.None;
 
+        // 绑定消息事件
+        public Connection()
+        {
+            msgDist.AddListener("Disconnect", HandleBasicMsg.MsgDisconnect);
+            msgDist.AddListener("Register", HandleBasicMsg.MsgRegister);
+        }
+
         // 连接服务端
         public bool Connect(string host, int port)
         {
