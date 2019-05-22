@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using LitJson;
+using UnityEngine;
 
 namespace ProjectScript.Network
 {
@@ -125,14 +126,33 @@ namespace ProjectScript.Network
         public static string GetString(byte[] dataBuffer, int start, ref int end)
         {
             if (dataBuffer == null)
+            {
+                Debug.LogWarning("[GetString失败] dataBuffer为null");
                 return "";
+            }
             if (dataBuffer.Length < start + sizeof(Int32))
+            {
+                Debug.LogWarning("[GetString失败] dataBuffer长度不足获取Lengt");
                 return "";
-            Int32 strLen = BitConverter.ToInt32(dataBuffer, start);
+            }
+            int strLen = GetInt(dataBuffer, start);
+            if (strLen <= 0)
+            {
+                Debug.LogWarning("[GetString失败] 获取strLen出错：" + strLen);
+                return "";
+            }
             if (dataBuffer.Length < start + sizeof(Int32) + strLen)
+            {
+                Debug.LogWarning("[GetString失败] dataBuffer长度不足获取String");
                 return "";
+            }
             string str = System.Text.Encoding.UTF8.GetString(dataBuffer, start + sizeof(Int32), strLen);
             end = start + sizeof(Int32) + strLen;
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogWarning("[GetString失败] 空字符串");
+                return "";
+            }
             return str;
         }
 
