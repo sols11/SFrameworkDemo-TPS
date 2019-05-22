@@ -23,6 +23,8 @@ namespace ProjectScript.Network
         // Update. Called by Connection
         public void Update()
         {
+            if (msgList.Count <= 0)
+                return;
             for (int i = 0; i < num; i++)
             {
                 if (msgList.Count > 0)

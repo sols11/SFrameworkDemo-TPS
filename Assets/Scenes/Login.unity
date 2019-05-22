@@ -2468,6 +2468,11 @@ PrefabInstance:
       propertyPath: btnDisConnect
       value: 
       objectReference: {fileID: 4029259203971414533}
+    - target: {fileID: 2781478031487915085, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: btnDisconnect
+      value: 
+      objectReference: {fileID: 4029259203971414533}
     - target: {fileID: 4438246331730425031, guid: e5126e9b09356174fb14b9ca477bb7e6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2528,6 +2533,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_BestFit
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1583736961431662630, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8407221278900223669, guid: e5126e9b09356174fb14b9ca477bb7e6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2566,7 +2576,7 @@ PrefabInstance:
     - target: {fileID: 6869969273207387337, guid: e5126e9b09356174fb14b9ca477bb7e6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1569681237484040533, guid: e5126e9b09356174fb14b9ca477bb7e6,
         type: 3}
@@ -2587,6 +2597,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554652838642529925, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: m_Text
+      value: Anotts
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321339684744635567, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465191973347310094, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: m_Text
+      value: 86696686
+      objectReference: {fileID: 0}
+    - target: {fileID: 8063770749934321473, guid: e5126e9b09356174fb14b9ca477bb7e6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4386080664915847697, guid: e5126e9b09356174fb14b9ca477bb7e6,
         type: 3}

@@ -18,7 +18,7 @@ namespace ProjectScript.Network
         public byte[] body;
         // 接受的数据。TODO：以后换成属性
         public string name;
-        public string jsonStr;
+        public string bodyStr;
 
         public Protocol(byte[] dataBuffer, int startIndex, int size)
         {
@@ -31,7 +31,7 @@ namespace ProjectScript.Network
             if (String.IsNullOrEmpty(name))
                 return;
             // 余下部分是JsonStr
-            jsonStr = System.Text.Encoding.UTF8.GetString(body, end, size - end);
+            bodyStr = System.Text.Encoding.UTF8.GetString(body, end, size - end);
         }
 
         // 以下是接口方法

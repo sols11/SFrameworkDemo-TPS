@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace ProjectScript.Network
 {
     /// <summary>
-    /// 网络管理。维护Connection连接，封装Connection接口
+    /// 网络管理。维护Connection连接，封装Connection接口，提供辅助函数
     /// </summary>
     public class NetMgr
     {

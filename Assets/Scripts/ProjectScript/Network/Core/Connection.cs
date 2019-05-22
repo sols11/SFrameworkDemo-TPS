@@ -9,7 +9,10 @@ using System.IO;
 
 namespace ProjectScript.Network
 {
-    /// 网络链接
+    /// <summary>
+    /// 连接类。负责socket连接/断开，消息收发处理，心跳包发送。
+    /// 与Server的Connection类对应
+    /// </summary>
     public class Connection
     {
         // 常量
@@ -19,14 +22,9 @@ namespace ProjectScript.Network
         // Buffer
         private byte[] readBuff = new byte[BUFFER_SIZE];
         private int buffCount = 0;
-        // 沾包分包
-        private Int32 msgLength = 0;
-        private byte[] lenBytes = new byte[sizeof(Int32)];
-        // 协议
-        public ProtocolBase proto;
         // 心跳时间
-        public float lastTickTime = -10000;
-        public float heartBeatTime = 30;
+        public float heartBeatTime = 120;
+        public float lastTickTime;
         // 消息分发
         public MsgDistribution msgDist = new MsgDistribution();
         /// 状态
@@ -40,8 +38,11 @@ namespace ProjectScript.Network
         // 绑定消息事件
         public Connection()
         {
+            lastTickTime = -heartBeatTime;     // 设置在一开始就发送一次心跳包
+
             msgDist.AddListener("Disconnect", HandleBasicMsg.MsgDisconnect);
             msgDist.AddListener("Register", HandleBasicMsg.MsgRegister);
+            msgDist.AddListener("Login", HandleBasicMsg.MsgLogin);
         }
 
         // 连接服务端
@@ -64,21 +65,6 @@ namespace ProjectScript.Network
             catch (Exception e)
             {
                 Debug.LogError("[客户端] 连接服务器失败:" + e.Message);
-                return false;
-            }
-        }
-
-        // 关闭连接
-        public bool Close()
-        {
-            try
-            {
-                socket.Close();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.Log("[客户端] 关闭失败:" + e.Message);
                 return false;
             }
         }
@@ -109,7 +95,7 @@ namespace ProjectScript.Network
                 return;
             // 消息长度（先拿到headpack中的size）
             int end = 0;
-            msgLength = Protocol.GetInt(readBuff, 0, ref end);
+            int msgLength = Protocol.GetInt(readBuff, 0, ref end);
             Debug.Log("[系统] 数据包长度：" + msgLength);
             if (msgLength <= 0)
             {
@@ -161,7 +147,7 @@ namespace ProjectScript.Network
         }
 
         // 发送消息的同时绑定回调函数，并指定key名
-        public bool Send(string name, byte[] body, string cbName, MsgDistribution.Delegate cb)
+        public bool Send(string name, string body, string cbName, MsgDistribution.Delegate cb)
         {
             if (!Send(name, body))
                 return false;
@@ -170,7 +156,7 @@ namespace ProjectScript.Network
         }
 
         // 发送消息的同时绑定回调函数，使用Msg+name作为key名
-        public bool Send(string name, byte[] body, MsgDistribution.Delegate cb)
+        public bool Send(string name, string body, MsgDistribution.Delegate cb)
         {
             string cbName = "Msg" + name;
             return Send(name, body, cbName, cb);
@@ -189,6 +175,21 @@ namespace ProjectScript.Network
                     Send("HeartBeat");
                     lastTickTime = Time.time;
                 }
+            }
+        }
+
+        // 关闭连接
+        public bool Close()
+        {
+            try
+            {
+                socket.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("[客户端] 关闭失败:" + e.Message);
+                return false;
             }
         }
 
