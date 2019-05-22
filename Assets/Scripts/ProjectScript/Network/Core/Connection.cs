@@ -25,7 +25,7 @@ namespace ProjectScript.Network
         // 协议
         public ProtocolBase proto;
         // 心跳时间
-        public float lastTickTime = 0;
+        public float lastTickTime = -10000;
         public float heartBeatTime = 30;
         // 消息分发
         public MsgDistribution msgDist = new MsgDistribution();
@@ -103,7 +103,16 @@ namespace ProjectScript.Network
             // 消息长度（先拿到headpack中的size）
             int end = 0;
             msgLength = Protocol.GetInt(readBuff, 0, ref end);
-            if (msgLength <= 0 || buffCount < msgLength + sizeof(Int32))
+            Debug.Log("[系统] 数据包长度：" + msgLength);
+            if (msgLength <= 0)
+            {
+                Debug.LogWarning("接受了错误的数据，无法GetInt，丢弃数据");
+                // 清除不符合协议的消息
+                Array.Clear(readBuff, 0, buffCount);
+                buffCount = 0;
+                return;
+            }
+            if (buffCount < msgLength + sizeof(Int32))
                 return;
             // 创建Protocol，并存放body内容
             Protocol protocol = new Protocol(readBuff, end, msgLength);
@@ -122,15 +131,17 @@ namespace ProjectScript.Network
             }
         }
 
-        // 原先是发送Protocol，我们改成直接发byte[]
-        public bool Send(string name, byte[] body = null)
+        // 原先是发送Protocol，我们改成直接发byte[]，该接口会修改body数据
+        public bool Send(string name, byte[] body)
         {
             if (status != Status.Connected)
             {
                 Debug.LogError("[Connection] 发送消息前需要先连接");
                 return false;
             }
-            Protocol.Encode(name, body);
+            body = Protocol.Encode(name, body);
+            if (body == null)
+                return false;
             socket.Send(body);
             Debug.Log("[客户端] 发送消息 " + name);
             return true;
@@ -152,6 +163,7 @@ namespace ProjectScript.Network
             return Send(name, body, cbName, cb);
         }
 
+        // Update中进行消息接受后处理，以及发送心跳包
         public void Update()
         {
             // 消息
@@ -161,7 +173,7 @@ namespace ProjectScript.Network
             {
                 if (Time.time - lastTickTime > heartBeatTime)
                 {
-                    Send("HeartBeat");
+                    Send("HeartBeat", null);
                     lastTickTime = Time.time;
                 }
             }

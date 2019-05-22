@@ -37,7 +37,14 @@ namespace Network
 			servNet.proto = new ProtocolBytes();
 			servNet.Start("127.0.0.1", 8888);
 
-			while(true)
+            int num = 123;
+            Console.WriteLine(num);
+            num = System.Net.IPAddress.HostToNetworkOrder(num);
+            Console.WriteLine(num);
+            num = System.Net.IPAddress.NetworkToHostOrder(num);
+            Console.WriteLine(num);
+
+            while (true)
 			{
 				string str = Console.ReadLine();
 				switch(str)

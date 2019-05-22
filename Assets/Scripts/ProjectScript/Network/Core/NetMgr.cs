@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace ProjectScript.Network
 {
-    /// 网络管理
+    /// <summary>
+    /// 网络管理。维护Connection连接
+    /// </summary>
     public class NetMgr
     {
         public static Connection srvConn = new Connection();

@@ -27,6 +27,7 @@ namespace ProjectScript.Network
             // 再拿到body中的name
             int end = 0;
             name = GetString(body, 0, ref end);
+            UnityEngine.Debug.Log("Protocol消息" + name);
             if (String.IsNullOrEmpty(name))
                 return;
             // 余下部分是JsonStr
@@ -56,32 +57,32 @@ namespace ProjectScript.Network
         public static byte[] Encode(string name, string jsonStr)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonStr);
-            if (Encode(name, bytes))
-                return bytes;
-            return null;
+            return Encode(name, bytes);
         }
 
-        // 将数据打包（用于Send)，返回是否成功，打包的结果存在dataBuffer
-        public static bool Encode(string name, byte[] dataBuffer)
+        // 将数据打包（用于Send)，返回打包结果，会修改dataBuffer，失败返回null
+        public static byte[] Encode(string name, byte[] dataBuffer)
         {
             if (String.IsNullOrEmpty(name))
-                return false;
-            Int32 len = name.Length;
+                return null;
+            // 注意int要做大端转换
+            Int32 len = System.Net.IPAddress.HostToNetworkOrder(name.Length);
             byte[] lenBytes = BitConverter.GetBytes(len);
             byte[] strBytes = System.Text.Encoding.UTF8.GetBytes(name);
             if(dataBuffer == null)
                 dataBuffer = lenBytes.Concat(strBytes).ToArray();
             else
                 dataBuffer = lenBytes.Concat(strBytes).Concat(dataBuffer).ToArray();
-            Int32 size = dataBuffer.Length;
+            Int32 size = System.Net.IPAddress.HostToNetworkOrder(dataBuffer.Length);
             byte[] sizeBytes = BitConverter.GetBytes(size);
             dataBuffer = sizeBytes.Concat(dataBuffer).ToArray();
-            return true;
+            return dataBuffer;
         }
 
         // 原理就是将int转为Byte类型然后concat，加入bytes数组，数组引用传递
         public static void AddInt(byte[] dataBuffer, int num)
         {
+            num = System.Net.IPAddress.HostToNetworkOrder(num);
             byte[] numBytes = BitConverter.GetBytes(num);
             if (dataBuffer == null)
                 dataBuffer = numBytes;
@@ -97,7 +98,9 @@ namespace ProjectScript.Network
             if (dataBuffer.Length < start + sizeof(Int32))
                 return 0;
             end = start + sizeof(Int32);
-            return BitConverter.ToInt32(dataBuffer, start);
+            int num = BitConverter.ToInt32(dataBuffer, start);
+            num = System.Net.IPAddress.NetworkToHostOrder(num);
+            return num;
         }
 
         public static int GetInt(byte[] dataBuffer, int start)
