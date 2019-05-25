@@ -27,8 +27,8 @@ namespace SFramework
     /// </summary>
     public enum SceneState
     {
-        StartScene,
         LoginScene,
+        StartScene,
     }
 
 
@@ -67,7 +67,7 @@ namespace SFramework
         //    }
         //}
         #endregion
-
+        
         /// <summary>
         /// 设置当前场景（加载场景）
         /// </summary>

@@ -39,6 +39,7 @@ namespace ProjectScript.Network
             {
                 Debug.Log("[客户端] 登录失败");
             }
+            GameLoop.Instance.sceneStateController.SetState(SceneState.StartScene, true);
         }
     }
 }

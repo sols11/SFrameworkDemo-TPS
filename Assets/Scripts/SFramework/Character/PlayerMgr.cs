@@ -65,6 +65,10 @@ namespace SFramework
             if (CurrentPlayer == null)
                 SetCurrentPlayer(new ProjectScript.PlayerMain(GameMainProgram.Instance.resourcesMgr.
                     LoadAsset(@"Players\Player", false, position, quaternion)));
+            // 网络
+            string id = ProjectScript.Network.NetMgr.srvConn.ToString();
+            ProjectScript.Network.PositionSync.AddPlayer(id, CurrentPlayer.GameObjectInScene, position);
+            ProjectScript.Network.PositionSync.SendPos();
             gameMain.gameDataMgr.Load(CurrentPlayer);   // 读档
         }
 

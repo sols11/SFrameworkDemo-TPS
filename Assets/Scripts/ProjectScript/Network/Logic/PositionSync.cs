@@ -7,27 +7,37 @@ using ProjectScript;
 
 namespace ProjectScript.Network
 {
-    public class PositionSync : MonoBehaviour
+    [Serializable]
+    public struct PlayerInfo
+    {
+        // 由于litJson不支持float所以用double
+        public string Id   { get; set; }
+        public double PosX { get; set; }
+        public double PosY { get; set; }
+        public double PosZ { get; set; }
+
+        public PlayerInfo(string playerId, Vector3 pos)
+        {
+            Id = playerId;
+            PosX = pos.x;
+            PosY = pos.y;
+            PosZ = pos.z;
+        }
+    }
+
+    /// <summary>
+    /// 处理Player的消息。该类需要和PlayerMgr，EnemyMgr等协作。
+    /// </summary>
+    public class PositionSync
     {
         // Player预设
-        public GameObject prefab;
+        //public GameObject prefab;
         // 上一次移动时间
         public float lastMoveTime;
         // 玩家列表
-        private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
+        private static Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
         // ID是自己的IP和端口
-        private string playerId;
-
-        public PositionSync(string id)
-        {
-            playerId = id;
-            AddPlayer(id, prefab.transform.position);
-        }
-
-        private void Start()
-        {
-
-        }
+        private static string playerId;
 
         // 响应函数
         /// <summary>
@@ -35,25 +45,25 @@ namespace ProjectScript.Network
         /// </summary>
         /// <param name="id"></param>
         /// <param name="pos"></param>
-        private void AddPlayer(string id, Vector3 pos)
+        public static void AddPlayer(string id, GameObject player, Vector3 pos)
         {
-            GameObject player = (GameObject)Instantiate(prefab, pos, Quaternion.identity);
+            playerId = id;
             // player下有一个TextMesh来显示ID
-            TextMesh textMesh = player.GetComponentInChildren<TextMesh>();
-            textMesh.text = id;
-            players.Add(id, player);
+            //TextMesh textMesh = player.GetComponentInChildren<TextMesh>();
+            //textMesh.text = id;
+            if (!players.ContainsKey(id))
+                players.Add(id, player);
         }
 
         /// <summary>
         /// 删除玩家
         /// </summary>
         /// <param name="id"></param>
-        private void DelPlayer(string id)
+        public static void DelPlayer(string id)
         {
             // 已经初始化该玩家
             if (players.ContainsKey(id))
             {
-                Destroy(players[id]);
                 players.Remove(id);
             }
         }
@@ -64,7 +74,7 @@ namespace ProjectScript.Network
         /// <param name="id"></param>
         /// <param name="pos"></param>
         /// <param name="score"></param>
-        public void UpdateInfo(string id, Vector3 pos)
+        public static void UpdateInfo(string id, Vector3 pos)
         {
             // 自身
             if (id == playerId)
@@ -80,7 +90,7 @@ namespace ProjectScript.Network
             // 尚未初始化该玩家
             else
             {
-                AddPlayer(id, pos);
+                //AddPlayer(id, pos);
             }
         }
 
@@ -88,7 +98,7 @@ namespace ProjectScript.Network
         /// 接受服务端广播的 PlayerLeave 协议，通知客户端删除该角色
         /// </summary>
         /// <param name="protocol"></param>
-        public void PlayerLeave(Protocol protocol)
+        public static void PlayerLeave(Protocol protocol)
         {
             string id = protocol.bodyStr;
             DelPlayer(id);
@@ -98,7 +108,7 @@ namespace ProjectScript.Network
         /// 更新所有对象位置
         /// </summary>
         /// <param name="protocol"></param>
-        public void GetList(Protocol protocol)
+        public static void GetList(Protocol protocol)
         {
             // 未完成
             int end = 0;
@@ -116,72 +126,40 @@ namespace ProjectScript.Network
             }
         }
 
-        // 移动
-        private void Move()
-        {
-            if (playerId == "")
-                return;
-
-            GameObject player = players[playerId];
-            // 上
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                player.transform.position += new Vector3(0, 0, 1);
-                SendPos();
-            }
-            // 下
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                player.transform.position += new Vector3(0, 0, -1); ;
-                SendPos();
-            }
-            // 左
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                player.transform.position += new Vector3(-1, 0, 0);
-                SendPos();
-            }
-            // 右
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                player.transform.position += new Vector3(1, 0, 0);
-                SendPos();
-            }
-        }
-
-        // 离开
-        void OnDestory()
-        {
-            SendLeave();
-        }
-
-        private void Update()
-        {
-            // 移动
-            Move();
-        }
-
         // 发送函数
         /// <summary>
         /// 发送自身位置（主动）
         /// </summary>
-        private void SendPos()
+        public static void SendPos()
         {
             GameObject player = players[playerId];
-            Vector3 pos = player.transform.position;
+            PlayerInfo info = new PlayerInfo(playerId, player.transform.position);
             // 组装协议
-            Dictionary<string, Vector3> info = new Dictionary<string, Vector3>();
-            info[playerId] = pos;
             string jsonStr = LitJson.JsonMapper.ToJson(info);
+            Debug.Log(jsonStr);
             NetMgr.srvConn.Send("UpdateInfo", jsonStr);
         }
 
         /// <summary>
         /// 发送离开协议
         /// </summary>
-        private void SendLeave()
+        public static void SendLeave()
         {
             NetMgr.srvConn.Send("PlayerLeave", playerId);
+        }
+
+        /// <summary>
+        /// 暂时没用上的转换函数
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public static List<float> Vector3ToList(Vector3 pos)
+        {
+            List<float> list = new List<float>();
+            list.Add(pos.x);
+            list.Add(pos.y);
+            list.Add(pos.z);
+            return list;
         }
     }
 }
