@@ -39,7 +39,7 @@ namespace SFramework
             GameMainProgram.Instance.uiManager.ShowUIForms("Crosshair");
             GameMainProgram.Instance.uiManager.ShowUIForms("PlayerHUD");
             GameMainProgram.Instance.uiManager.ShowUIForms("BulletIndicators");
-            gameMainProgram.audioMgr.PlayMusic(0);
+            // gameMainProgram.audioMgr.PlayMusic(0);
         }
 
         public override void StateEnd()

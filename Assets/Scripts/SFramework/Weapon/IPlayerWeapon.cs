@@ -44,5 +44,23 @@ namespace SFramework
             ClearList();
         }
 
+
+        public void Reload()
+        {
+            int total = RemainingBulletCount + CurrentBulletCount;
+            if (total >= CilpBulletCount)
+            {
+                CurrentBulletCount = CilpBulletCount;
+                RemainingBulletCount = total - CurrentBulletCount;
+            }
+            else
+            {
+                CurrentBulletCount = total;
+                RemainingBulletCount = 0;
+            }
+            ProjectScript.PlayerMain playerMain = PlayerMedi.Player as ProjectScript.PlayerMain;
+            playerMain.Reloading();
+        }
+
     }
 }

@@ -37,8 +37,7 @@ namespace ProjectScript
         private float jumpPower = 6;
         private bool atGround = true;
         private bool isCombatState = true;
-        private int currentBullet = 0;
-        private float fireRate = 0.5f;
+        private float fireRate = 0.5f;      // 开火需要间隔的时间
         private float fireTimer = 0;
         private int groundLayerIndex;
         // Animator States
@@ -50,14 +49,16 @@ namespace ProjectScript
         private string staJumpStart = "handgun_jump_1_start";
         private string staJumpAir = "handgun_jump_2_air";
         private string staJumpLand = "handgun_jump_3_land";
+        private string staReload = "handgun_combat_reload";
         // Parameters
         private string animHurt = "Hurt";
-        private string animDead = "Hurt";
+        private string animDead = "Dead";
         private string animSpeed = "Speed";
         private string animSpeedX = "SpeedX";
         private string animSpeedY = "SpeedY";
         private string animJump = "Jump";
         private string animShoot = "Shoot";
+        private string animReload = "Reload";
         private string animAtGround = "AtGround";
         // Directions
         private Vector3 targetDirection;        // 输入的方向
@@ -203,7 +204,11 @@ namespace ProjectScript
             // 拔枪，切换状态
             if (Input.GetButtonDown("Draw"))
                 isCombatState = !isCombatState;
-
+            else if (Input.GetButtonDown("Reload"))
+            {
+                PlayerMedi.PlayerWeapon.Reload();
+                Reloading();
+            }
             if (Input.GetButton("Fire2"))    // 鼠标右键瞄准
             {
                 zoomLevel = Mathf.SmoothDamp(zoomLevel, 1, ref zoomLevelVelocity, zoomTime);    // 随着时间的推移逐渐将值改变为期望的目标
@@ -223,17 +228,21 @@ namespace ProjectScript
             {
                 if (Input.GetButtonDown("Fire1") && fireTimer <= 0)
                 {
-                    animator.SetTrigger(animShoot);
                     ShootFire();
                     fireTimer = fireRate;
-                    --currentBullet;
                 }
             }
         }
 
         private void ShootFire()
         {
+            animator.SetTrigger(animShoot);
             PlayerMedi.PlayerWeapon.Attack();
+        }
+
+        public void Reloading()
+        {
+            animator.SetTrigger(animReload);
         }
 
         public override void Hurt(PlayerHurtAttr playerHurtAttr)

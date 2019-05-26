@@ -22,7 +22,10 @@ namespace ProjectScript
         {
             // 子弹数计算
             if (CurrentBulletCount <= 0)
+            {
+                Reload();
                 return;
+            }
             --CurrentBulletCount;
             GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BulletCount);
 

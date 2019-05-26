@@ -22,7 +22,7 @@ namespace SFramework
     /// </summary>
 	public class EnemyMgr : IGameMgr
     {
-        private List<IEnemy> enemysInScene;
+        public List<IEnemy> enemysInScene;
 
         public EnemyMgr(GameMainProgram gameMain) : base(gameMain)
         {
@@ -76,7 +76,7 @@ namespace SFramework
         /// 删除Enemy并释放
         /// </summary>
         /// <param name="_enemy"></param>
-        private void RemoveEnemy(IEnemy _enemy)
+        public void RemoveEnemy(IEnemy _enemy)
         {
             if (_enemy != null)
             {

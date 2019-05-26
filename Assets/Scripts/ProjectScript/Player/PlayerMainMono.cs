@@ -20,6 +20,9 @@ namespace DreamKeeper
 {
     public class PlayerMainMono : IPlayerMono
     {
-        // 暂时没有要执行的
+        public void UpdateBulletCount()
+        {
+            GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BulletCount);
+        }
     }
 }

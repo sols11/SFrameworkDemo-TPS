@@ -1077,7 +1077,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673409243c9a3a24692215a8e0dfa37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voice: []
+  voice:
+  - {fileID: 8300000, guid: 82839a953d37da948aed6d506685a4e3, type: 3}
+  - {fileID: 8300000, guid: 03c27b644fbb8a1438d86ddf3f36daea, type: 3}
   sound: []
   targetTag: Player
   iEnemyWeapon: {fileID: 6037519912092308484}

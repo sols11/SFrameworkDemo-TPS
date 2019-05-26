@@ -64,6 +64,7 @@ namespace ProjectScript
             GameObjectInScene.layer = (int)ObjectLayer.Without;
             // GameObjectInScene.GetComponent<Collider>().enabled = false;
             GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.BossDead);
+            GameMainProgram.Instance.enemyMgr.enemysInScene.Remove(this);
             GameObject.Destroy(GameObjectInScene, 10);
         }
 
