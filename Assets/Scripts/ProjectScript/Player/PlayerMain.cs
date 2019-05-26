@@ -58,6 +58,7 @@ namespace ProjectScript
         private string animSpeedY = "SpeedY";
         private string animJump = "Jump";
         private string animShoot = "Shoot";
+        private string animRunShoot = "RunShoot";
         private string animReload = "Reload";
         private string animAtGround = "AtGround";
         // Directions
@@ -195,7 +196,7 @@ namespace ProjectScript
         private void GroundMove()
         {
             // Speed = 4
-            if (moveSpeed != 0)
+            if (moveSpeed > 1e-2)
                 Rgbd.MovePosition(GameObjectInScene.transform.position + targetDirection * 4 * Time.deltaTime);
         }
 
@@ -224,7 +225,7 @@ namespace ProjectScript
         {
             fireTimer -= Time.deltaTime;
 
-            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatShoot))
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatShoot) || stateInfo.IsName(staCombatRunShoot))
             {
                 if (Input.GetButtonDown("Fire1") && fireTimer <= 0)
                 {
@@ -236,7 +237,10 @@ namespace ProjectScript
 
         private void ShootFire()
         {
-            animator.SetTrigger(animShoot);
+            if(moveSpeed > 1e-2)
+                animator.SetTrigger(animRunShoot);
+            else
+                animator.SetTrigger(animShoot);
             PlayerMedi.PlayerWeapon.Attack();
         }
 
