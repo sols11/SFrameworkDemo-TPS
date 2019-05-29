@@ -76,6 +76,7 @@ namespace SFramework
         public IPlayer(GameObject gameObject):base(gameObject)
         {
             Speed = 5;
+            Fits = new IEquip[6];
             if (GameObjectInScene != null)
             {
                 animator = GameObjectInScene.GetComponent<Animator>();

@@ -30115,7 +30115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a45acb4bdb5c84584287273172bd6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voice: []
+  voice:
+  - {fileID: 8300000, guid: 82839a953d37da948aed6d506685a4e3, type: 3}
+  - {fileID: 8300000, guid: 03c27b644fbb8a1438d86ddf3f36daea, type: 3}
   sound:
   - {fileID: 8300000, guid: 860b8741e2a3f3a4fb84d8c5f4c8a16d, type: 3}
   iPlayerWeapon: {fileID: 2552189269672569430}

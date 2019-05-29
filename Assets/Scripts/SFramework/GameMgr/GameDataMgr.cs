@@ -71,15 +71,19 @@ namespace SFramework
         /// <summary>
         /// 存档
         /// </summary>
-        public void Save(IPlayer currentPlayer)
+        public string Save(IPlayer currentPlayer)
         {
             if (currentPlayer == null)
             {
                 Debug.LogError("没有Player,无法存档");
-                return;
+                return string.Empty;
             }
             // TODO：在这里保存数据
-            // 如 gameData.Name = currentPlayer.Name;
+            gameData.HP = currentPlayer.CurrentHP;
+            gameData.PosX = currentPlayer.GameObjectInScene.transform.position.x;
+            gameData.PosY = currentPlayer.GameObjectInScene.transform.position.y;
+            gameData.PosZ = currentPlayer.GameObjectInScene.transform.position.z;
+            gameData.Fit = currentPlayer.Fits[(int)FitType.Weapon];
 
             // File
             string gameDataFile = GetDataPath() + "/" + dataFileName;
@@ -87,6 +91,7 @@ namespace SFramework
             //将存档写入XML文件
             string dataString = xmlSaver.SerializeObject(gameData, typeof(GameData));
             xmlSaver.CreateXML(gameDataFile, dataString);
+            return dataString;
         }
 
         /// <summary>
@@ -181,16 +186,10 @@ namespace SFramework
         private void UpdatePlayerData(IPlayer currentPlayer)
         {
             // 值类型
-            currentPlayer.Name = gameData.Name;
-            currentPlayer.Rank = gameData.Rank;
-            currentPlayer.Gold = gameData.Gold;
-            currentPlayer.MaxHP = gameData.MaxHP;
-            currentPlayer.CurrentHP = currentPlayer.MaxHP;
-            currentPlayer.CanAttack = gameData.CanAttack;
+            currentPlayer.CurrentHP = gameData.HP;
+            currentPlayer.GameObjectInScene.transform.position = new Vector3((float)gameData.PosX, (float)gameData.PosY, (float)gameData.PosZ);
             // 引用类型
-            currentPlayer.Fits = gameData.Fit;
-            currentPlayer.PropNum = gameData.PropNum;
-            currentPlayer.TasksData = gameData.TasksData;
+            currentPlayer.Fits[(int)FitType.Weapon] = gameData.Fit;
             currentPlayer.PlayerMedi.UpdateEquipFromFits();
         }
     }

@@ -70,6 +70,7 @@ namespace SFramework
             //ProjectScript.Network.PositionSync.AddPlayer(id, CurrentPlayer.GameObjectInScene, position);
             //ProjectScript.Network.PositionSync.SendPos();
             gameMain.gameDataMgr.Load(CurrentPlayer);   // 读档
+           // ProjectScript.Network.NetMgr.SavePlayer(CurrentPlayer);
         }
 
         public void SetCurrentPlayer(IPlayer player)

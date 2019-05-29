@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using SFramework;
 using System.Text.RegularExpressions;
 
 namespace ProjectScript.Network
@@ -23,6 +23,15 @@ namespace ProjectScript.Network
         public static bool IsSafeStr(string str)
         {
             return !Regex.IsMatch(str, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
+        }
+
+        public static bool SavePlayer(IPlayer player)
+        {
+            string xmlStr = GameMainProgram.Instance.gameDataMgr.Save(player);
+            if (string.IsNullOrEmpty(xmlStr))
+                return false;
+            srvConn.Send("Save", xmlStr);
+            return true;
         }
     }
 }

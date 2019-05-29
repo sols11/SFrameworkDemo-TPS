@@ -82,7 +82,6 @@ namespace SFramework
                 PlayerWeapon.CilpBulletCount = equip.CilpBulletCount;
                 PlayerWeapon.CurrentBulletCount = equip.CilpBulletCount;
                 PlayerWeapon.RemainingBulletCount = equip.TotalBulletCount - equip.CilpBulletCount;
-                Debug.Log(PlayerWeapon.CurrentBulletCount);
             }
         }
 

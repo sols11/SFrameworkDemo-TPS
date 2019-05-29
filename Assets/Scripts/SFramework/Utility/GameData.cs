@@ -27,38 +27,20 @@ namespace SFramework
 
         // 下面是添加需要储存的内容，目前都是Player的内容
         // Player的属性由装备和初始值决定，无需记录
-        public string Name { get; set; }
-        public int Rank { get; set; }
-        public int Gold { get; set; }
-        public int MaxHP { get; set; }
-        // 技能开关
-        public bool CanAttack { get; set; }
+        public int HP { get; set; }
+        public double PosX { get; set; }
+        public double PosY { get; set; }
+        public double PosZ { get; set; }
         // 装备和道具
-        public IEquip[] Fit { get; set; }
-        public int[] PropNum { get; set; }     // 和Player使用同一地址
-        // 任务数据
-        public List<TaskData> TasksData { get; set; }
+        public IEquip Fit { get; set; }
 
         public GameData()
         {
             // 构造函数，设置默认存档
             key = SystemInfo.deviceUniqueIdentifier;    // 设定密钥，根据具体平台设定
+            HP = 100;
             // Player
-            Name = "我";
-            Rank = 1;
-            Gold = 100;
-            MaxHP = 100;
-            CanAttack = true;
-            // 初始装备
-            Fit = new IEquip[6];
-            Fit[(int)FitType.Weapon] = UnityHelper.FindDic(GameMainProgram.Instance.dataBaseMgr.equipDict, "步枪");
-            // 初始背包，1~31值为-1
-            PropNum = new int[32];
-            for (int i = 1; i < 32; i++)
-                PropNum[i] = -1;
-            PropNum[0] = 3;
-            // 其他
-            TasksData = new List<TaskData>();
+            Fit = UnityHelper.FindDic(GameMainProgram.Instance.dataBaseMgr.equipDict, "步枪");
         }
     }
 
