@@ -35,11 +35,12 @@ namespace SFramework
                 (@"Enemys\Enemy", false, new Vector3(4, 0, 4), Quaternion.Euler(0, -180, 0))));
 
             // UI，BGM
-            //GameMainProgram.Instance.uiManager.ShowUIForms("FadeOut");
-            GameMainProgram.Instance.uiManager.ShowUIForms("Crosshair");
-            GameMainProgram.Instance.uiManager.ShowUIForms("PlayerHUD");
-            GameMainProgram.Instance.uiManager.ShowUIForms("BulletIndicators");
-            // gameMainProgram.audioMgr.PlayMusic(0);
+            gameMainProgram.uiManager.ShowUIForms("FadeOut");
+            gameMainProgram.uiManager.ShowUIForms("Crosshair");
+            gameMainProgram.uiManager.ShowUIForms("PlayerHUD");
+            gameMainProgram.uiManager.ShowUIForms("BulletIndicators");
+            gameMainProgram.audioMgr.PlayMusic(0);
+            gameMainProgram.courseMgr.Enable = true;
         }
 
         public override void StateEnd()

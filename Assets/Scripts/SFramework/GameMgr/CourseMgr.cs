@@ -91,6 +91,7 @@ namespace SFramework
             if (!pauseGame)
             {
                 pauseGame = true;
+                
                 GameMainProgram.Instance.uiManager.ShowUIForms("PauseMenu");
                 if (Time.timeScale != 0)
                     Time.timeScale = 0;
