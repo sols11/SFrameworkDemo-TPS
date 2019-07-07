@@ -67,7 +67,7 @@ namespace SFramework
             if (sound == null)
                 return;
             soundAudioSources.Add(sound);
-            sound.volume = SettingSaveData.SoundVolume / 100.0f;    // /100
+            //sound.volume = SettingSaveData.SoundVolume / 100.0f;    // /100
         }
 
         /// <summary>

@@ -66,16 +66,29 @@ namespace SFramework
             // 智能自动读取UI文件路径（Canvas不要添加）
             if (formToPathDict != null)
             {
-                DirectoryInfo dir = new DirectoryInfo(Application.dataPath + Common.SYS_PATH_UI);
-                FileInfo[] files = dir.GetFiles("*.prefab");    // 扫描文件 GetFiles("*.txt");可以实现扫描扫描txt文件 
-                foreach (FileInfo fi in files)
-                {
-                    // 移除文件名后缀
-                    string str = fi.Name.Remove(fi.Name.LastIndexOf('.'));
-                    // 加入路径字典
-                    formToPathDict.Add(str, @"UI\" + str);
-                    // Debug.Log("UI确认：" + str);
-                }
+                // 这种方法在编辑器下可以正常运行，但打包后则会报DirectoryNotFoundException: Could not find a part of the path 'E:\UProject\TPS_Data\Resources\UI'.的异常
+                //DirectoryInfo dir = new DirectoryInfo(Application.dataPath + Common.SYS_PATH_UI);
+                //FileInfo[] files = dir.GetFiles("*.prefab");    // 扫描文件 GetFiles("*.txt");可以实现扫描扫描txt文件 
+                //foreach (FileInfo fi in files)
+                //{
+                //    // 移除文件名后缀
+                //    string str = fi.Name.Remove(fi.Name.LastIndexOf('.'));
+                //    // 加入路径字典
+                //    formToPathDict.Add(str, @"UI\" + str);
+                //    Debug.Log("UI确认：" + str);
+                //}
+                // 因此还是建议手动添加
+                formToPathDict.Add("PlayerHUD", @"UI\PlayerHUD");
+                formToPathDict.Add("AimTarget", @"UI\AimTarget");
+                formToPathDict.Add("BulletIndicators", @"UI\BulletIndicators");
+                formToPathDict.Add("ChatRoom", @"UI\ChatRoom");
+                formToPathDict.Add("Crosshair", @"UI\Crosshair");
+                formToPathDict.Add("FadeIn", @"UI\FadeIn");
+                formToPathDict.Add("FadeInWhite", @"UI\FadeInWhite");
+                formToPathDict.Add("FadeOut", @"UI\FadeOut");
+                formToPathDict.Add("FadeOutWhite", @"UI\FadeOutWhite");
+                formToPathDict.Add("LobbyManager", @"UI\LobbyManager");
+                formToPathDict.Add("PauseMenu", @"UI\PauseMenu");
                 Debug.Log("UI文件确认完毕");
             }
         }
@@ -279,6 +292,7 @@ namespace SFramework
 
             //根据UI窗体名称，得到对应的加载路径
             formToPathDict.TryGetValue(uiFormName, out strUIFormPaths);
+            //Debug.Log(formToPathDict);
             //根据“UI窗体名称”，加载“预设克隆体”
             if (!string.IsNullOrEmpty(strUIFormPaths))
             {
@@ -316,7 +330,10 @@ namespace SFramework
             }
             else
             {
-                Debug.Log("_TraCanvasTransfrom==null Or goCloneUIPrefabs==null!! ,Plese Check!, 参数uiFormName="+uiFormName); 
+                if (canvasTransform == null)
+                    Debug.Log("canvasTransform is null!");
+                if (goCloneUIPrefabs == null)
+                    Debug.Log("goCloneUIPrefabs is null!");
             }
 
             Debug.Log("出现不可以预估的错误，请检查，参数 uiFormName="+uiFormName);

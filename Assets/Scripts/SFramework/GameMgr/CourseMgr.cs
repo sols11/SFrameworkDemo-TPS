@@ -91,7 +91,8 @@ namespace SFramework
             if (!pauseGame)
             {
                 pauseGame = true;
-                
+                Cursor.visible = true;  // 显示光标
+                Cursor.lockState = CursorLockMode.Confined;
                 GameMainProgram.Instance.uiManager.ShowUIForms("PauseMenu");
                 if (Time.timeScale != 0)
                     Time.timeScale = 0;
@@ -101,6 +102,7 @@ namespace SFramework
             else
             {
                 pauseGame = false;
+                Cursor.visible = false;
                 GameMainProgram.Instance.uiManager.CloseUIForms("PauseMenu");
                 if (Time.timeScale==0)
                     Time.timeScale = defaultTimeScale;
@@ -122,9 +124,8 @@ namespace SFramework
         private IEnumerator AfterPlayerDead()
         {
             GameMainProgram.Instance.courseMgr.Enable = false;
-            yield return new WaitForSeconds(2);
-            //GameMainProgram.Instance.playerMgr.Release();
-
+            yield return new WaitForSeconds(4);
+            GameLoop.Instance.sceneStateController.SetState(SceneState.StartScene);
         }
 
         private IEnumerator AfterBossDead()

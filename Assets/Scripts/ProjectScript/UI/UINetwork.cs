@@ -17,6 +17,7 @@ namespace ProjectScript
         // 客户端地址信息
         public Text clientInfo;
         public Text chatText;
+        public static Text msgInfo;
         [Header("面版")]
         public GameObject panelLink;
         public GameObject panelLogin;
@@ -34,6 +35,7 @@ namespace ProjectScript
 
         private void Start()
         {
+            msgInfo = transform.Find("MsgInfo").GetComponent<Text>();
             btnDisconnect.onClick.AddListener(OnDisconnectButton);
             btnLink.onClick.AddListener(OnLinkButton);
             btnRegister.onClick.AddListener(OnRegisterButton);
@@ -102,7 +104,7 @@ namespace ProjectScript
                 return;
             login["id"] = inputUsername.text;
             login["pw"] = inputPassword.text;
-
+ 
             string jsonStr = LitJson.JsonMapper.ToJson(login);
             NetMgr.srvConn.Send("Login", jsonStr);
         }

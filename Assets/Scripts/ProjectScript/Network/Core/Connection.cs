@@ -16,14 +16,14 @@ namespace ProjectScript.Network
     public class Connection
     {
         // 常量
-        const int BUFFER_SIZE = 1024;
+        private const int BUFFER_SIZE = 1024;
         // Socket
         private Socket socket;
         // Buffer
         private byte[] readBuff = new byte[BUFFER_SIZE];
         private int buffCount = 0;
         // 心跳时间
-        public float heartBeatTime = 120;
+        public float heartBeatTime = 60;
         public float lastTickTime;
         // 消息分发
         public MsgDistribution msgDist = new MsgDistribution();

@@ -88,6 +88,8 @@ namespace ProjectScript
         /// </summary>
         public override void Initialize()
         {
+            MaxHP = 100;
+            CurrentHP = MaxHP;
             if (Camera.main != null)
             {
                 mainCamera = Camera.main.transform;
@@ -109,7 +111,7 @@ namespace ProjectScript
             atGround = Physics.Raycast(GameObjectInScene.transform.position, Vector3.down, 0.1f, groundLayerIndex);
 
             // 物理移动和旋转（设计在落地动画前段不可移动）
-            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot) || stateInfo.IsName(staJumpStart) || stateInfo.IsName(staJumpAir) || (stateInfo.IsName(staJumpLand) && stateInfo.normalizedTime > 0.8f))
+            if (stateInfo.IsName(staCombatMove) || stateInfo.IsName(staCombatRunShoot) || stateInfo.IsName(staJumpStart) || stateInfo.IsName(staJumpAir) || (stateInfo.IsName(staJumpLand) && stateInfo.normalizedTime > 0.8f) || stateInfo.IsName("Hurt"))
             {
                 if (CanMove)
                     GroundMove();
@@ -262,6 +264,8 @@ namespace ProjectScript
         {
             base.Dead();
             animator.SetTrigger(animDead);
+            GameMainProgram.Instance.eventMgr.InvokeEvent(EventName.PlayerDead);
         }
+
     }
 }

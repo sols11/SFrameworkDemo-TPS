@@ -7,6 +7,7 @@ TagManager:
   - Canvas
   - UICamera
   - Environment
+  - MsgInfo
   layers:
   - Default
   - TransparentFX

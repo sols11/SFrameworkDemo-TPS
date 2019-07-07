@@ -21,6 +21,7 @@ namespace ProjectScript
         // 客户端主动断开连接
         private void OnExitButton()
         {
+            NetMgr.SavePlayer(GameMainProgram.Instance.playerMgr.CurrentPlayer);
             NetMgr.srvConn.Send("Disconnect");
             Debug.Log("[客户端] 断开连接");
             NetMgr.srvConn.Close();

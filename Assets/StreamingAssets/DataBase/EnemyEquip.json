@@ -11,7 +11,7 @@
         "SalePrice": 1,
         "HP": 0,
         "SP": 0,
-        "Attack": 20,
+        "Attack": 10,
         "Defend": 0,
         "Crit": 0,
         "Speed": 0

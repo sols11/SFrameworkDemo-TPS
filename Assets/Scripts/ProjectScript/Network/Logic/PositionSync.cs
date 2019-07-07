@@ -140,6 +140,13 @@ namespace ProjectScript.Network
             NetMgr.srvConn.Send("UpdateInfo", jsonStr);
         }
 
+        public static void SendPosList(List<PlayerInfo> players)
+        {
+            string jsonStr = LitJson.JsonMapper.ToJson(players);
+            //Debug.Log(jsonStr);
+            NetMgr.srvConn.Send("Navigate", jsonStr);
+        }
+
         /// <summary>
         /// 发送离开协议
         /// </summary>

@@ -21,11 +21,12 @@ namespace ProjectScript.Network
         {
             if (protocol.bodyStr == "0")
             {
-                Debug.Log("[客户端] 注册成功");
+                UINetwork.msgInfo.text = "注册成功";
+                GameLoop.Instance.sceneStateController.SetState(SceneState.StartScene, true);
             }
             else
             {
-                Debug.Log("[客户端] 注册失败");
+                UINetwork.msgInfo.text = "注册失败";
             }
         }
 
@@ -33,13 +34,13 @@ namespace ProjectScript.Network
         {
             if (protocol.bodyStr == "0")
             {
-                Debug.Log("[客户端] 登录成功");
+                UINetwork.msgInfo.text = "登录成功";
+                GameLoop.Instance.sceneStateController.SetState(SceneState.StartScene, true);
             }
             else
             {
-                Debug.Log("[客户端] 登录失败");
+                UINetwork.msgInfo.text = "登录失败";
             }
-            GameLoop.Instance.sceneStateController.SetState(SceneState.StartScene, true);
         }
     }
 }
